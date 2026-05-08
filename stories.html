@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="donor">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stories · Lives Changed — Baker Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:        #0C0E0D;
+      --bg-2:      #161918;
+      --bg-card:   #1E2220;
+      --ink:       #EFE9DC;
+      --ink-2:     #A39B8E;
+      --rule:      rgba(239,233,220,0.1);
+      --accent:    #ED8054;
+      --accent-dk: #C4562B;
+      --brand-blue:#688DA6;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'Inter', -apple-system, sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+
+    .eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2);
+    }
+
+    section { padding: 80px 0; }
+    section.tight { padding: 48px 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap;
+    }
+    .btn-accent  { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); transform: translateY(-1px); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.3); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    /* ── Nav ─────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(12,14,13,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 32px;
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      background: #fff; border-radius: 4px; padding: 4px 10px;
+    }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links {
+      display: flex; gap: 28px;
+      font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); border-bottom: 1.5px solid var(--accent); padding-bottom: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate {
+      background: var(--accent); color: #0C0E0D;
+      padding: 9px 18px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; display: inline-block;
+    }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Audience Bar ───────────── */
+    .audience-bar {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 55;
+      background: var(--bg-card); border-bottom: 1px solid var(--rule);
+    }
+    .audience-bar-inner {
+      display: flex; align-items: center; height: 48px; gap: 0;
+    }
+    .audience-bar-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px 0 0; white-space: nowrap; flex-shrink: 0;
+    }
+    .aud-tabs { display: flex; }
+    .aud-tab {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px; height: 48px; display: flex; align-items: center;
+      border-right: 1px solid var(--rule); cursor: pointer;
+      transition: color .15s, background .15s; position: relative;
+    }
+    .aud-tab:first-child { border-left: 1px solid var(--rule); }
+    .aud-tab:hover { color: var(--ink); }
+    .aud-tab.active { color: var(--brand-blue); }
+    .aud-tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--brand-blue);
+    }
+
+    /* ── Page hero ──────────────── */
+    .page-hero {
+      padding: 172px 0 64px; /* nav 64 + audience bar 48 + 60 breathing */
+      border-bottom: 1px solid var(--rule);
+    }
+    .page-hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(56px, 8vw, 108px);
+      font-weight: 700; line-height: 0.96;
+      letter-spacing: -0.03em;
+      margin: 16px 0 28px;
+    }
+    .page-hero-h1 em { font-style: italic; color: var(--accent); }
+    .page-hero-sub {
+      font-family: var(--serif);
+      font-size: clamp(18px, 1.8vw, 23px);
+      line-height: 1.5; color: var(--ink-2);
+      max-width: 56ch;
+    }
+
+    /* ── Filter bar ─────────────── */
+    .filter-bar {
+      display: flex; gap: 0; flex-wrap: wrap;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--rule);
+      margin-top: 40px;
+    }
+    .filter-btn {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 14px 20px; cursor: pointer;
+      border-right: 1px solid var(--rule);
+      transition: color .15s, background .15s;
+      position: relative;
+    }
+    .filter-btn:first-child { padding-left: 0; border-left: none; }
+    .filter-btn:hover { color: var(--ink); }
+    .filter-btn.active { color: var(--ink); }
+    .filter-btn.active::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 2px; background: var(--accent);
+    }
+
+    /* ── Featured story ─────────── */
+    .feature-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      padding: 64px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .feature-photo { position: relative; border-radius: 4px; overflow: hidden; }
+    .feature-photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+    .feature-tag {
+      position: absolute; top: 18px; left: 18px;
+      background: var(--accent); color: #0C0E0D;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 5px 12px; border-radius: 2px;
+    }
+    .feature-byline {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-2);
+      margin-bottom: 16px;
+    }
+    .feature-byline span + span::before { content: '·'; margin-right: 16px; }
+    .feature-h2 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 60px);
+      font-weight: 700; line-height: 1.02; letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+    .feature-h2 em { font-style: italic; color: var(--accent); }
+    .feature-kicker {
+      font-family: var(--serif); font-size: 19px; line-height: 1.5;
+      color: var(--ink-2); margin-bottom: 28px; max-width: 44ch;
+    }
+
+    /* ── Story grid ─────────────── */
+    .stories-section { padding: 64px 0; }
+    .stories-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 2px solid var(--ink);
+      gap: 0;
+    }
+    .story-tile {
+      padding: 32px 28px 36px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: flex; flex-direction: column;
+      transition: background .2s ease;
+    }
+    .story-tile:hover { background: var(--bg-card); }
+    .story-tile:nth-child(3n) { border-right: none; }
+    .story-tile.dimmed { opacity: 0.5; }
+    .story-tile.dimmed:hover { background: transparent; }
+    .tile-photo {
+      margin: -32px -28px 24px;
+      overflow: hidden; position: relative;
+    }
+    .tile-photo img {
+      width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block;
+      transition: transform .5s ease;
+    }
+    .story-tile:hover .tile-photo img { transform: scale(1.04); }
+    .tile-photo-placeholder {
+      width: 100%; aspect-ratio: 16/10;
+      background: var(--bg-card);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-2);
+    }
+    .tile-meta {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      margin-bottom: 12px;
+    }
+    .tile-tag { color: var(--accent); }
+    .tile-h3 {
+      font-family: var(--serif); font-size: clamp(20px, 1.8vw, 26px);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+    .tile-excerpt {
+      font-size: 14px; line-height: 1.65; color: var(--ink-2);
+      flex: 1; margin-bottom: 20px;
+    }
+    .tile-read {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      display: inline-flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid transparent; padding-bottom: 1px;
+      transition: border-color .15s;
+    }
+    .tile-read:hover { border-bottom-color: var(--accent); }
+    .tile-read.muted { color: var(--ink-2); }
+
+    /* ── Quote interlude ────────── */
+    .quote-band {
+      background: var(--bg-2); padding: 80px 0;
+    }
+    .quote-band blockquote {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4.5vw, 64px);
+      font-weight: 400; line-height: 1.08;
+      letter-spacing: -0.02em; max-width: 18ch;
+    }
+    .quote-band blockquote em { font-style: italic; color: var(--accent); }
+    .quote-band cite {
+      display: block; margin-top: 28px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-2); font-style: normal;
+    }
+
+    /* ── CTA ────────────────────── */
+    .stories-cta {
+      padding: 96px 0; text-align: center;
+      border-top: 1px solid var(--rule);
+    }
+    .stories-cta-h2 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 700; line-height: 1.0; letter-spacing: -0.025em;
+      margin-bottom: 32px;
+    }
+    .stories-cta-h2 em { font-style: italic; color: var(--accent); }
+
+    /* ── Footer ─────────────────── */
+    .footer { background: #080A09; padding: 72px 0 40px; border-top: 1px solid var(--rule); }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 48px; margin-bottom: 60px;
+    }
+    .footer-logo { margin-bottom: 16px; display: inline-block; background: #fff; border-radius: 4px; padding: 6px 12px; }
+    .footer-logo img { height: 44px; width: auto; display: block; }
+    .footer-tagline {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2); line-height: 1.7;
+    }
+    .footer-col-head {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-locations { display: flex; flex-direction: column; gap: 14px; }
+    .footer-loc-name { font-size: 14px; font-weight: 500; }
+    .footer-loc-addr { font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+    .footer-email-form {
+      display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-top: 12px;
+    }
+    .footer-email-form input {
+      flex: 1; background: transparent; border: none; color: var(--ink);
+      padding: 11px 14px; font: inherit; font-size: 14px; outline: none;
+    }
+    .footer-email-form input::placeholder { color: var(--ink-2); }
+    .footer-email-form button {
+      background: var(--accent); color: #0C0E0D; padding: 0 16px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    }
+    .footer-email-form button:hover { background: var(--accent-dk); }
+    .footer-bottom {
+      padding-top: 24px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-2);
+    }
+    .footer-social { display: flex; gap: 18px; }
+    .footer-social a:hover { color: var(--ink); }
+
+    /* ── Reveal ─────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .wrap, .wrap-mid { padding: 0 20px; }
+      .feature-grid { grid-template-columns: 1fr; gap: 36px; }
+      .feature-photo { order: -1; }
+      .stories-grid { grid-template-columns: 1fr 1fr; }
+      .stories-grid .story-tile:nth-child(3n) { border-right: 1px solid var(--rule); }
+      .stories-grid .story-tile:nth-child(2n) { border-right: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .stories-grid { grid-template-columns: 1fr; }
+      .stories-grid .story-tile { border-right: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html" class="active">Stories</a>
+      <a href="programs.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html">For Business</a>
+      <a href="news.html">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="donate.html" class="nav-donate">Donate →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════ AUDIENCE BAR ══════════════════ -->
+<div class="audience-bar">
+  <div class="wrap audience-bar-inner">
+    <span class="audience-bar-label">I'm visiting as</span>
+    <div class="aud-tabs" role="tablist">
+      <button class="aud-tab active" data-aud="donor"       role="tab" aria-selected="true">A donor or supporter</button>
+      <button class="aud-tab"        data-aud="participant"  role="tab" aria-selected="false">Looking for work</button>
+      <button class="aud-tab"        data-aud="business"    role="tab" aria-selected="false">A business partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE HERO ══════════════════ -->
+<div class="page-hero wrap">
+  <span class="eyebrow">Lives changed · in their own words</span>
+  <h1 class="page-hero-h1">
+    Every paycheck<br>is a <em>comeback.</em>
+  </h1>
+  <p class="page-hero-sub">
+    Since 1980, Baker Industries has been a place where work changes lives.
+    These are the participants — what they came from, what they built here,
+    and where they went next.
+  </p>
+
+  <div class="filter-bar" role="tablist" aria-label="Filter stories">
+    <button class="filter-btn active" data-filter="all">All stories</button>
+    <button class="filter-btn" data-filter="reentry">Reentry</button>
+    <button class="filter-btn" data-filter="disability">Disability</button>
+    <button class="filter-btn" data-filter="recovery">Recovery</button>
+    <button class="filter-btn" data-filter="housing">Housing</button>
+    <button class="filter-btn" data-filter="family">Founding family</button>
+    <button class="filter-btn" data-filter="business">Business partners</button>
+  </div>
+</div>
+
+<!-- ══════════════════ FEATURED: NATE ══════════════════ -->
+<section>
+  <div class="wrap">
+    <article class="feature-grid" data-story-type="reentry">
+      <div class="feature-photo">
+        <img
+          src="assets/img/Baker_Industries_00255.jpg"
+          alt="A Baker Industries participant at work on the production floor, Philadelphia."
+        >
+        <div class="feature-tag">Staff pick</div>
+      </div>
+      <div>
+        <div class="feature-byline">
+          <span>Feature · No. 047</span>
+          <span>Reentry</span>
+          <span>9 min read</span>
+        </div>
+        <h2 class="feature-h2">
+          Twenty-nine years inside.<br>
+          Six months at Baker.<br>
+          <em>One trade, for life.</em>
+        </h2>
+        <p class="feature-kicker">
+          Nate came home with nothing — no debit card, no phone, no bank account.
+          A counselor told him about Baker. Today he runs the press at a high-end
+          Philadelphia manufacturer. Baker didn't rescue him. It put him to work.
+        </p>
+        <a href="story-nate.html" class="btn btn-accent">Read Nate's story →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════════════ STORY GRID ══════════════════ -->
+<section class="stories-section">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom: 32px;">More voices</div>
+    <div class="stories-grid" id="stories-grid">
+
+      <!-- Pete -->
+      <article class="story-tile" data-story-type="disability">
+        <div class="tile-photo">
+          <img
+            src="assets/img/Baker_Industries_00745.jpg"
+            alt="Workers moving on the production floor at Baker Industries."
+          >
+        </div>
+        <div class="tile-meta">
+          <span>As told to</span>
+          <span class="tile-tag">· Disability</span>
+          <span>· 18 years</span>
+        </div>
+        <h3 class="tile-h3">"What does not transmit light creates darkness."</h3>
+        <p class="tile-excerpt">
+          Pete — "Positive Pete" to everyone at Baker — on eighteen years on the floor,
+          the power of showing up, and why you sometimes have to create your own light.
+        </p>
+        <a href="story-pete.html" class="tile-read">Read Pete's story →</a>
+      </article>
+
+      <!-- Justin -->
+      <article class="story-tile" data-story-type="family">
+        <div class="tile-photo">
+          <img
+            src="assets/img/Baker_Industries_00093.jpg"
+            alt="The Baker Industries production floor in Philadelphia."
+          >
+        </div>
+        <div class="tile-meta">
+          <span>As told to</span>
+          <span class="tile-tag">· Founding family</span>
+          <span>· 45 years</span>
+        </div>
+        <h3 class="tile-h3">"My parents built this place for me. I've worked here for forty-five years."</h3>
+        <p class="tile-excerpt">
+          Justin Baker on the organization his mother and father started to give him a job —
+          and what it's meant to spend a working life beside thousands of others who needed one too.
+        </p>
+        <a href="story-justin.html" class="tile-read">Read Justin's story →</a>
+      </article>
+
+      <!-- Tracey -->
+      <article class="story-tile" data-story-type="recovery">
+        <div class="tile-photo">
+          <img
+            src="assets/img/IMG_0022.jpg"
+            alt="A job readiness class at Baker Industries."
+          >
+        </div>
+        <div class="tile-meta">
+          <span>As told to</span>
+          <span class="tile-tag">· Recovery</span>
+          <span>· Placed 2024</span>
+        </div>
+        <h3 class="tile-h3">"They don't let us stay in our mess."</h3>
+        <p class="tile-excerpt">
+          Tracey on how Baker's insistence — kind, unwavering, daily — pulled her out of her own
+          way, and the message she found on the other side of it.
+        </p>
+        <a href="story-tracey.html" class="tile-read">Read Tracey's story →</a>
+      </article>
+
+      <!-- Coming soon: Norristown -->
+      <article class="story-tile dimmed" data-story-type="housing">
+        <div class="tile-photo-placeholder">Coming spring 2026</div>
+        <div class="tile-meta">
+          <span>In production</span>
+          <span class="tile-tag">· Housing</span>
+        </div>
+        <h3 class="tile-h3">The Norristown class of 2026.</h3>
+        <p class="tile-excerpt">
+          Stories from our new Montgomery County facility — participants in our first Norristown
+          cohort. Publishing spring 2026.
+        </p>
+        <span class="tile-read muted">In production</span>
+      </article>
+
+      <!-- Coming soon: ServSafe -->
+      <article class="story-tile dimmed" data-story-type="recovery">
+        <div class="tile-photo-placeholder">Coming 2026</div>
+        <div class="tile-meta">
+          <span>In production</span>
+          <span class="tile-tag">· ServSafe cohort</span>
+        </div>
+        <h3 class="tile-h3">All fifteen, certified.</h3>
+        <p class="tile-excerpt">
+          Our first ServSafe cohort — fifteen participants, fifteen national food-safety
+          certifications. Portraits from the class.
+        </p>
+        <span class="tile-read muted">In production</span>
+      </article>
+
+      <!-- Share your story -->
+      <article class="story-tile" data-story-type="all" style="background: var(--bg-2);">
+        <div class="tile-photo" style="margin: -32px -28px 24px;">
+          <img
+            src="assets/img/Baker_Industries_00010.jpg"
+            alt="Baker Industries staff in conversation."
+          >
+        </div>
+        <div class="tile-meta">
+          <span>Your story here</span>
+        </div>
+        <h3 class="tile-h3">Are you a Baker alum?</h3>
+        <p class="tile-excerpt">
+          We're always looking to share our graduates' journeys. If you've been through the
+          program and want to tell your story, we'd like to hear from you.
+        </p>
+        <a href="mailto:communications@bakerindustries.org" class="tile-read">Contact communications →</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ QUOTE BAND ══════════════════ -->
+<div class="quote-band" data-reveal>
+  <div class="wrap">
+    <blockquote>
+      "Out of our mess,<br>
+      there is always<br>
+      a <em>message.</em>"
+      <cite>— Ms. Lisette · Baker Job Readiness · quoted by Tracey</cite>
+    </blockquote>
+  </div>
+</div>
+
+<!-- ══════════════════ CLOSING CTA ══════════════════ -->
+<section class="stories-cta" data-reveal>
+  <div class="wrap">
+    <h2 class="stories-cta-h2">
+      Every story on this page<br>
+      started with <em>one paycheck.</em>
+    </h2>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="donate.html" class="btn btn-accent">Fund the next one →</a>
+      <a href="programs.html" class="btn btn-outline">How the program works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="assets/img/logo.png" alt="Baker Industries" />
+        </div>
+        <p class="footer-tagline">
+          501(c)(3) workforce development nonprofit.<br>
+          Demonstrating the power of work since 1980.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-head">Locations</div>
+        <div class="footer-locations">
+          <div><div class="footer-loc-name">Philadelphia</div><div class="footer-loc-addr">3630 I Street</div></div>
+          <div><div class="footer-loc-name">Malvern</div><div class="footer-loc-addr">184 Pennsylvania Ave</div></div>
+          <div><div class="footer-loc-name">Norristown</div><div class="footer-loc-addr">9 S Forrest Ave</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="donate.html">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="press.html">Press room</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:6px; line-height:1.6;">
+          <em>Lives Changed</em> — our monthly story series. No spam.
+        </p>
+        <form class="footer-email-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';">
+          <input type="email" placeholder="your@email.com" required />
+          <button type="submit">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3) · bakerindustries.org</span>
+      <div class="footer-social">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Audience switcher
+  document.querySelectorAll('.aud-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.documentElement.setAttribute('data-audience', tab.dataset.aud);
+      document.querySelectorAll('.aud-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    });
+  });
+
+  // Story filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const tiles = document.querySelectorAll('#stories-grid .story-tile');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      tiles.forEach(tile => {
+        const type = tile.dataset.storyType || 'all';
+        tile.style.display = (filter === 'all' || type === filter) ? 'flex' : 'none';
+      });
+    });
+  });
+
+  // Also show featured on filter (always show)
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      const featured = document.querySelector('.feature-grid');
+      if (featured) {
+        const type = featured.dataset.storyType || 'all';
+        featured.closest('section').style.display =
+          (filter === 'all' || type === filter) ? '' : 'none';
+      }
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

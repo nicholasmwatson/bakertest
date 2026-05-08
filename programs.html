@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="participant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs — Baker Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:         #0C0E0D;
+      --bg-2:       #161918;
+      --bg-card:    #1E2220;
+      --ink:        #EFE9DC;
+      --ink-2:      #A39B8E;
+      --rule:       rgba(239,233,220,0.1);
+      --accent:     #ED8054;
+      --accent-dk:  #C4562B;
+      --brand-blue: #688DA6;
+      --brand-sage: #B3BAA7;
+      --giving:     #7BAF8A;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', -apple-system, sans-serif;
+      --mono:       'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    /* ── Utilities ──────────────────────────────────────── */
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+
+    .eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2);
+    }
+    .eyebrow-accent { color: var(--accent); }
+
+    section { padding: 96px 0; }
+    section.tight { padding: 56px 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap;
+    }
+    .btn-accent  { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); transform: translateY(-1px); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.3); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btn-outline-accent { border: 1.5px solid var(--accent); color: var(--accent); }
+    .btn-outline-accent:hover { background: var(--accent); color: #0C0E0D; }
+    .btn-blue { background: var(--brand-blue); color: #fff; }
+    .btn-blue:hover { background: #5a7b93; transform: translateY(-1px); }
+
+    hr.rule { border: none; border-top: 1px solid var(--rule); }
+
+    /* ── Nav ────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(12,14,13,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 32px;
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      background: #fff; border-radius: 4px; padding: 4px 10px;
+    }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links {
+      display: flex; gap: 28px;
+      font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate {
+      background: var(--accent); color: #0C0E0D;
+      padding: 9px 18px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; display: inline-block;
+    }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Audience Bar ────────────────────────────────────── */
+    .audience-bar {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 55;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--rule);
+    }
+    .audience-bar-inner {
+      display: flex; align-items: center; height: 48px; gap: 0;
+    }
+    .audience-bar-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px 0 0; white-space: nowrap; flex-shrink: 0;
+    }
+    .aud-tabs { display: flex; gap: 0; }
+    .aud-tab {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px; height: 48px; display: flex; align-items: center;
+      border-right: 1px solid var(--rule);
+      cursor: pointer; transition: color .15s, background .15s;
+      position: relative;
+    }
+    .aud-tab:first-child { border-left: 1px solid var(--rule); }
+    .aud-tab:hover { color: var(--ink); }
+    .aud-tab.active { color: var(--brand-blue); }
+    .aud-tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--brand-blue);
+    }
+
+    /* ── Audience-gated content ──────────────────────────── */
+    .aud-only { display: none; }
+    [data-audience="donor"]       .aud-donor      { display: block; }
+    [data-audience="participant"] .aud-participant { display: block; }
+    [data-audience="business"]    .aud-business   { display: block; }
+
+    /* ── Scroll reveal ───────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    /* ── Page hero ───────────────────────────────────────── */
+    .page-hero {
+      padding-top: 200px; /* nav (64) + audience bar (48) + breathing room */
+      padding-bottom: 80px;
+    }
+    .hero-label {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+      display: block;
+    }
+    .page-hero h1 {
+      font-family: var(--serif); font-size: clamp(48px, 7vw, 96px);
+      line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 32px;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-lede {
+      font-size: 20px; line-height: 1.65; color: var(--ink-2);
+      max-width: 58ch;
+    }
+    .hero-ctas { margin-top: 40px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ── Photo strip ─────────────────────────────────────── */
+    .photo-strip {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4px;
+    }
+    .photo-strip-item { position: relative; overflow: hidden; }
+    .photo-strip-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s ease;
+    }
+    .photo-strip-item:hover img { transform: scale(1.04); }
+    .photo-strip-item.tall { aspect-ratio: 16/9; }
+    .photo-strip-item.sq { aspect-ratio: 1/1; }
+    .photo-caption {
+      position: absolute; bottom: 12px; left: 14px;
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(239,233,220,0.7);
+    }
+
+    /* ── Program blocks ──────────────────────────────────── */
+    .program-block {
+      display: grid; grid-template-columns: 280px 1fr; gap: 80px;
+      padding: 72px 0; border-top: 1px solid var(--rule);
+      align-items: start;
+    }
+    .program-num {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 20px;
+    }
+    .program-block h2 {
+      font-family: var(--serif); font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 24px;
+    }
+    .program-lede {
+      font-size: 19px; line-height: 1.65; color: var(--ink-2); margin-bottom: 28px;
+    }
+    .program-detail {
+      font-size: 15px; line-height: 1.7; color: var(--ink-2);
+    }
+    .program-photo {
+      margin-top: 32px; border-radius: 4px; overflow: hidden;
+      aspect-ratio: 3/2;
+    }
+    .program-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Timeline ────────────────────────────────────────── */
+    .timeline { margin: 40px 0 0; }
+    .timeline-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 28px;
+    }
+    .timeline-track { position: relative; height: 2px; background: var(--rule); margin: 0 0 48px; }
+    .timeline-dot {
+      position: absolute; top: -6px; width: 14px; height: 14px;
+      border-radius: 50%; background: var(--accent); transform: translateX(-50%);
+    }
+    .timeline-dot-lbl {
+      position: absolute; top: 22px; transform: translateX(-50%);
+      font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--ink-2); text-align: center;
+      width: 90px; line-height: 1.4;
+    }
+
+    /* ── Workshop grid ───────────────────────────────────── */
+    .workshop-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border: 1px solid var(--rule); margin-top: 40px;
+    }
+    .workshop-item {
+      padding: 20px 22px; border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .workshop-item:nth-child(4n) { border-right: none; }
+    .workshop-item:nth-last-child(-n+4) { border-bottom: none; }
+    .workshop-item-num {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    }
+    .workshop-item-name {
+      font-size: 14px; font-weight: 600; line-height: 1.3;
+    }
+
+    /* ── Populations ─────────────────────────────────────── */
+    .pop-section {
+      background: var(--bg-2); border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .pop-intro { margin-bottom: 64px; }
+    .pop-intro h2 {
+      font-family: var(--serif); font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.05; letter-spacing: -0.02em; margin-top: 20px;
+    }
+    .pop-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border: 1px solid var(--rule);
+    }
+    .pop-card {
+      padding: 32px 28px; border-right: 1px solid var(--rule);
+      position: relative;
+    }
+    .pop-card:last-child { border-right: none; }
+    .pop-card-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; font-size: 18px;
+    }
+    .pop-card h3 {
+      font-family: var(--serif); font-size: 22px; line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .pop-card p { font-size: 14px; line-height: 1.7; color: var(--ink-2); }
+    .pop-card-accent { background: rgba(237,128,84,0.15); }
+    .pop-card-blue   { background: rgba(104,141,166,0.15); }
+    .pop-card-sage   { background: rgba(179,186,167,0.15); }
+    .pop-card-giving { background: rgba(123,175,138,0.15); }
+    .pop-note {
+      margin-top: 28px; font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2);
+      line-height: 1.7;
+    }
+
+    /* ── Stats band ──────────────────────────────────────── */
+    .stats-band {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .stats-band-inner {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-left: 1px solid var(--rule);
+    }
+    .stat-cell {
+      padding: 40px 32px; border-right: 1px solid var(--rule);
+    }
+    .stat-big {
+      font-family: var(--serif); font-size: clamp(40px, 5vw, 64px);
+      line-height: 1; letter-spacing: -0.02em; color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .stat-label {
+      font-size: 13px; color: var(--ink-2); line-height: 1.5;
+    }
+
+    /* ── Audience CTA panels ─────────────────────────────── */
+    .aud-cta-section {
+      background: var(--bg-card);
+      border-top: 1px solid var(--rule);
+    }
+    .aud-cta-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
+    }
+    .aud-cta-copy h2 {
+      font-family: var(--serif); font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    .aud-cta-copy h2 em { font-style: italic; color: var(--accent); }
+    .aud-cta-copy p { font-size: 16px; line-height: 1.7; color: var(--ink-2); margin-bottom: 32px; }
+    .aud-cta-img {
+      border-radius: 4px; overflow: hidden; aspect-ratio: 4/3;
+    }
+    .aud-cta-img img { width: 100%; height: 100%; object-fit: cover; }
+    .aud-cta-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ── Eligibility checker ─────────────────────────────── */
+    .eligibility {
+      background: var(--bg-2); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 40px 44px; margin-top: 40px;
+    }
+    .eligibility h3 {
+      font-family: var(--serif); font-size: 26px; margin-bottom: 20px;
+    }
+    .eligibility-list {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      margin-bottom: 28px;
+    }
+    .eligibility-item {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--rule);
+      font-size: 14px; line-height: 1.5;
+    }
+    .eligibility-item:nth-last-child(-n+2) { border-bottom: none; }
+    .eligibility-check {
+      font-family: var(--mono); font-size: 12px; color: var(--giving); flex-shrink: 0;
+    }
+
+    /* ── Locations ────────────────────────────────────────── */
+    .locations-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+      border: 1px solid var(--rule); margin-top: 40px;
+    }
+    .location-card {
+      padding: 32px 28px; border-right: 1px solid var(--rule);
+    }
+    .location-card:last-child { border-right: none; }
+    .location-tag {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--brand-blue); margin-bottom: 12px;
+    }
+    .location-name {
+      font-family: var(--serif); font-size: 22px; margin-bottom: 8px;
+    }
+    .location-addr { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+    .location-badge {
+      display: inline-block; margin-top: 12px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+      background: rgba(123,175,138,0.15); color: var(--giving);
+    }
+
+    /* ── Closing CTA ─────────────────────────────────────── */
+    .closing {
+      text-align: center; background: var(--bg-card);
+      border-top: 1px solid var(--rule);
+    }
+    .closing h2 {
+      font-family: var(--serif); font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 12px;
+    }
+    .closing h2 em { font-style: italic; color: var(--accent); }
+    .closing p { font-size: 16px; color: var(--ink-2); margin-bottom: 36px; max-width: 52ch; margin-left: auto; margin-right: auto; }
+    .closing-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .footer {
+      background: #060706; padding: 64px 0 40px;
+      border-top: 1px solid var(--rule);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px;
+      margin-bottom: 56px;
+    }
+    .footer-logo {
+      display: inline-flex; align-items: center;
+      background: #fff; border-radius: 4px; padding: 4px 10px;
+      margin-bottom: 20px;
+    }
+    .footer-logo img { height: 28px; width: auto; display: block; }
+    .footer-tagline { font-size: 13px; color: var(--ink-2); line-height: 1.6; max-width: 30ch; }
+    .footer-col-head {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 24px; border-top: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2); flex-wrap: wrap; gap: 12px;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .pop-grid { grid-template-columns: repeat(2, 1fr); }
+      .pop-card:nth-child(2) { border-right: none; }
+      .pop-card:nth-child(3) { border-right: 1px solid var(--rule); }
+      .pop-card { border-bottom: 1px solid var(--rule); }
+      .pop-card:nth-last-child(-n+2) { border-bottom: none; }
+      .stats-band-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell { border-bottom: 1px solid var(--rule); }
+      .stat-cell:nth-last-child(-n+2) { border-bottom: none; }
+      .workshop-grid { grid-template-columns: repeat(2, 1fr); }
+      .workshop-item:nth-child(2n) { border-right: none; }
+      .aud-cta-inner { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .photo-strip { grid-template-columns: 1fr; }
+      .photo-strip-item.sq { aspect-ratio: 3/2; }
+      .program-block { grid-template-columns: 1fr; gap: 32px; }
+      .pop-grid { grid-template-columns: 1fr; }
+      .pop-card { border-right: none !important; border-bottom: 1px solid var(--rule); }
+      .pop-card:last-child { border-bottom: none; }
+      .eligibility-list { grid-template-columns: 1fr; }
+      .locations-grid { grid-template-columns: 1fr; }
+      .location-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .location-card:last-child { border-bottom: none; }
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html">Stories</a>
+      <a href="programs.html" class="active">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html">For Business</a>
+      <a href="news.html">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="donate.html" class="nav-donate">Donate →</a>
+    </div>
+  </div>
+</header>
+
+<!-- Audience bar -->
+<div class="audience-bar">
+  <div class="wrap audience-bar-inner">
+    <span class="audience-bar-label">I am a</span>
+    <div class="aud-tabs">
+      <button class="aud-tab" data-aud="donor">Donor / Supporter</button>
+      <button class="aud-tab active" data-aud="participant">Job Seeker</button>
+      <button class="aud-tab" data-aud="business">Business Partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- Page hero -->
+<section class="page-hero tight">
+  <div class="wrap">
+    <span class="hero-label" data-reveal>Programs</span>
+    <!-- Participant view -->
+    <div class="aud-only aud-participant" data-reveal>
+      <h1>Real work.<br>Real pay.<br><em>From day one.</em></h1>
+      <p class="hero-lede">Baker Industries is a fully operational business and a 12-week Job Readiness Program. You work. You get paid. And you leave with a job — and a team behind you.</p>
+      <div class="hero-ctas">
+        <a href="#apply" class="btn btn-accent">See if you qualify →</a>
+        <a href="stories.html" class="btn btn-outline">Hear from graduates</a>
+      </div>
+    </div>
+    <!-- Donor view -->
+    <div class="aud-only aud-donor" data-reveal>
+      <h1>Twelve weeks.<br>One life<br><em>changed.</em></h1>
+      <p class="hero-lede">Your support funds a seat in Baker's Job Readiness Program — where adults facing barriers to employment earn real wages while building the skills and connections to land living-wage jobs.</p>
+      <div class="hero-ctas">
+        <a href="donate.html" class="btn btn-accent">Support a participant →</a>
+        <a href="stories.html" class="btn btn-outline">Read the stories</a>
+      </div>
+    </div>
+    <!-- Business view -->
+    <div class="aud-only aud-business" data-reveal>
+      <h1>Your order<br>funds<br><em>their future.</em></h1>
+      <p class="hero-lede">Every contract Baker takes on keeps participants employed and the program funded. Learn how Baker's workforce develops and what it means for your supply chain to work with us.</p>
+      <div class="hero-ctas">
+        <a href="capabilities.html" class="btn btn-accent">Our capabilities →</a>
+        <a href="capabilities.html#quote" class="btn btn-outline">Request a quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Photo strip -->
+<div class="wrap" style="padding-bottom: 0;">
+  <div class="photo-strip" data-reveal>
+    <div class="photo-strip-item tall">
+      <img src="assets/img/Baker_Industries_00280.jpg" alt="Participants working on an assembly line at Baker Industries." loading="lazy" />
+      <span class="photo-caption">Assembly · Malvern</span>
+    </div>
+    <div class="photo-strip-item sq">
+      <img src="assets/img/Baker_Industries_00265.jpg" alt="A participant packaging product." loading="lazy" />
+      <span class="photo-caption">Packaging</span>
+    </div>
+    <div class="photo-strip-item sq">
+      <img src="assets/img/Baker_Industries_00271.jpg" alt="A supervisor working with a participant." loading="lazy" />
+      <span class="photo-caption">Coaching</span>
+    </div>
+  </div>
+</div>
+
+<!-- Stats band -->
+<section class="stats-band tight">
+  <div class="wrap">
+    <div class="stats-band-inner" data-reveal>
+      <div class="stat-cell">
+        <div class="stat-big">12</div>
+        <div class="stat-label">Weeks in the program,<br>paid from week one</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-big">60</div>
+        <div class="stat-label">Participants placed<br>in jobs in 2024</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-big">192</div>
+        <div class="stat-label">Participants served<br>in 2024</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-big">45yr</div>
+        <div class="stat-label">Justin Baker has worked<br>here — the original</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Program blocks -->
+<section>
+  <div class="wrap">
+
+    <!-- Program 01 -->
+    <div class="program-block" data-reveal>
+      <div>
+        <div class="program-num">Program · 01</div>
+        <h2>The Job Readiness Program</h2>
+      </div>
+      <div>
+        <p class="program-lede">Twelve weeks. Paid from day one. Real work on real client orders — plus weekly workshops and one-on-one coaching that together get participants into living-wage jobs.</p>
+        <p class="program-detail">Participants arrive Monday. By Wednesday they're on a fulfillment line, assembling, packaging, or shipping product for clients across the Delaware Valley. That's not busywork — it's the actual work Baker gets paid to do. The program is intentionally designed this way: learning is faster when the stakes are real.</p>
+
+        <!-- Timeline -->
+        <div class="timeline" style="margin-top: 40px;">
+          <div class="timeline-label">A typical participant journey</div>
+          <div class="timeline-track">
+            <div class="timeline-dot" style="left: 0%"></div>
+            <div class="timeline-dot-lbl" style="left: 0%">Week 0<br>Intake & orientation</div>
+            <div class="timeline-dot" style="left: 25%"></div>
+            <div class="timeline-dot-lbl" style="left: 25%">Week 3<br>On the line</div>
+            <div class="timeline-dot" style="left: 50%"></div>
+            <div class="timeline-dot-lbl" style="left: 50%">Week 6<br>Workshops begin</div>
+            <div class="timeline-dot" style="left: 75%"></div>
+            <div class="timeline-dot-lbl" style="left: 75%">Week 9<br>Placement prep</div>
+            <div class="timeline-dot" style="left: 100%"></div>
+            <div class="timeline-dot-lbl" style="left: 100%">Week 12<br>Job placed</div>
+          </div>
+        </div>
+
+        <!-- Workshop grid -->
+        <div style="margin-top: 56px;">
+          <div class="eyebrow">What's covered in weekly workshops</div>
+          <div class="workshop-grid" style="margin-top: 16px;">
+            <div class="workshop-item">
+              <div class="workshop-item-num">01</div>
+              <div class="workshop-item-name">Financial literacy</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">02</div>
+              <div class="workshop-item-name">Resume writing</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">03</div>
+              <div class="workshop-item-name">Interview preparation</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">04</div>
+              <div class="workshop-item-name">Workplace leadership</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">05</div>
+              <div class="workshop-item-name">Technology skills</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">06</div>
+              <div class="workshop-item-name">Goal setting</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">07</div>
+              <div class="workshop-item-name">Decision-making</div>
+            </div>
+            <div class="workshop-item">
+              <div class="workshop-item-num">08</div>
+              <div class="workshop-item-name">Conflict resolution</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Participant-only: eligibility -->
+        <div class="aud-only aud-participant" id="apply">
+          <div class="eligibility" style="margin-top: 48px;">
+            <h3>Do you qualify?</h3>
+            <p style="font-size: 15px; color: var(--ink-2); margin-bottom: 24px; line-height: 1.7;">Baker serves adults who face barriers to employment. You may be a good fit if you identify with any of the following:</p>
+            <div class="eligibility-list">
+              <div class="eligibility-item"><span class="eligibility-check">✓</span><span>Returning from incarceration or currently on parole / probation</span></div>
+              <div class="eligibility-item"><span class="eligibility-check">✓</span><span>Living with a physical, intellectual, or developmental disability</span></div>
+              <div class="eligibility-item"><span class="eligibility-check">✓</span><span>In recovery from substance use disorder</span></div>
+              <div class="eligibility-item"><span class="eligibility-check">✓</span><span>Currently experiencing or recently exited homelessness</span></div>
+              <div class="eligibility-item"><span class="eligibility-check">✓</span><span>Referred by a social service or reentry organization</span></div>
+              <div class="eligibility-item"><span class="eligibility-check">✓</span><span>Ready to work and willing to commit to 12 weeks</span></div>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="mailto:info@bakerindustries.org" class="btn btn-accent">Apply now →</a>
+              <a href="stories.html" class="btn btn-outline">Read graduate stories</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Program 02 -->
+    <div class="program-block" data-reveal>
+      <div>
+        <div class="program-num">Program · 02</div>
+        <h2>Long-term employment</h2>
+      </div>
+      <div>
+        <p class="program-lede">For participants — often those with significant disabilities — who thrive at Baker and are not transitioning to outside employment, Baker <em>is</em> the job.</p>
+        <p class="program-detail">Some of our team members have been here for decades. Justin Baker, for whom this organization was founded, has worked here for 45 years. For these individuals, Baker provides not just income but community, structure, and purpose that long-term employment uniquely delivers.</p>
+        <p class="program-detail" style="margin-top: 16px;">This is not a consolation track. Many long-term employees are among Baker's most skilled and reliable workers — the institutional knowledge that keeps production running smoothly every single day.</p>
+        <div class="program-photo">
+          <img src="assets/img/Baker_Industries_00293.jpg" alt="A long-term Baker Industries team member at their workstation." loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Program 03 -->
+    <div class="program-block" data-reveal>
+      <div>
+        <div class="program-num">Program · 03</div>
+        <h2>Wraparound support</h2>
+      </div>
+      <div>
+        <p class="program-lede">Showing up to work is impossible when the rest of your life is unstable. We address that.</p>
+        <p class="program-detail">Baker partners with local social service organizations to connect participants with housing assistance, mental health services, legal aid, and financial counseling. Our coaches don't just track attendance — they know what's happening outside of Baker and help navigate it.</p>
+        <p class="program-detail" style="margin-top: 16px;">We believe employment is most durable when it's supported. Participants who get help with housing and healthcare are more likely to stay employed after placement — and less likely to cycle back into the systems they escaped.</p>
+        <div class="program-photo" style="margin-top: 32px;">
+          <img src="assets/img/IMG_0066.jpg" alt="A Baker Industries coach meeting one-on-one with a participant." loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Who we serve -->
+<section class="pop-section">
+  <div class="wrap">
+    <div class="pop-intro" data-reveal>
+      <span class="eyebrow">Who we serve</span>
+      <h2>Four populations.<br>One team. Side by side.</h2>
+    </div>
+    <div class="pop-grid" data-reveal>
+      <div class="pop-card">
+        <div class="pop-card-icon pop-card-accent">⚖️</div>
+        <h3>Returning citizens</h3>
+        <p>Adults reentering after incarceration, navigating parole, court dates, and a world that has changed. Baker provides structure, real wages, and a record of employment that opens the next door.</p>
+      </div>
+      <div class="pop-card">
+        <div class="pop-card-icon pop-card-blue">♿</div>
+        <h3>Adults with disabilities</h3>
+        <p>Physical, intellectual, and developmental. Many have been part of Baker's community for decades. Some work here for life — alongside participants in transition, on the same line, doing the same work.</p>
+      </div>
+      <div class="pop-card">
+        <div class="pop-card-icon pop-card-sage">🌿</div>
+        <h3>Adults in recovery</h3>
+        <p>From substance use disorder — stability, routine, and paid work form the foundation for sustained recovery. Baker doesn't require perfection; it requires showing up.</p>
+      </div>
+      <div class="pop-card">
+        <div class="pop-card-icon pop-card-giving">🏠</div>
+        <h3>Experiencing homelessness</h3>
+        <p>Meeting people where they are, with wraparound services to stabilize housing alongside employment. Income is the first step. Baker makes it accessible.</p>
+      </div>
+    </div>
+    <p class="pop-note" data-reveal>Baker is one of the only organizations in the region to blend these four populations into a single, integrated, high-performing team — not siloed programs.</p>
+  </div>
+</section>
+
+<!-- Locations -->
+<section>
+  <div class="wrap">
+    <div data-reveal>
+      <span class="eyebrow">Where we operate</span>
+      <h2 style="font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px; margin-bottom: 8px;">Three facilities.<br>One community.</h2>
+      <p style="font-size: 16px; color: var(--ink-2); max-width: 52ch; margin-bottom: 0;">Across the Philadelphia region, Baker operates production floors where participants work alongside long-term employees every day.</p>
+    </div>
+    <div class="locations-grid" data-reveal>
+      <div class="location-card">
+        <div class="location-tag">Facility 01</div>
+        <div class="location-name">Malvern</div>
+        <div class="location-addr">150 Monument Road<br>Malvern, PA 19355</div>
+        <div class="location-badge">Main campus</div>
+      </div>
+      <div class="location-card">
+        <div class="location-tag">Facility 02</div>
+        <div class="location-name">Philadelphia</div>
+        <div class="location-addr">184 Pennsylvania Ave<br>Philadelphia, PA</div>
+        <div class="location-badge">Open</div>
+      </div>
+      <div class="location-card">
+        <div class="location-tag">Facility 03</div>
+        <div class="location-name">Norristown</div>
+        <div class="location-addr">9 S Forrest Ave<br>Norristown, PA</div>
+        <div class="location-badge" style="background: rgba(104,141,166,0.15); color: var(--brand-blue);">Spring 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Audience-specific CTAs -->
+<section class="aud-cta-section">
+  <!-- Participant CTA -->
+  <div class="aud-only aud-participant">
+    <div class="wrap">
+      <div class="aud-cta-inner" data-reveal>
+        <div class="aud-cta-copy">
+          <span class="eyebrow">Ready to apply?</span>
+          <h2 style="margin-top: 16px;">Your next job<br>starts <em>Monday.</em></h2>
+          <p>Baker accepts referrals and direct inquiries year-round. Sessions start regularly. There's no waiting list for the right fit.</p>
+          <div class="aud-cta-btns">
+            <a href="mailto:info@bakerindustries.org" class="btn btn-accent">Apply now →</a>
+            <a href="stories.html" class="btn btn-outline">Read graduate stories</a>
+          </div>
+        </div>
+        <div class="aud-cta-img">
+          <img src="assets/img/IMG_0091.jpg" alt="A Baker Industries graduate smiling." loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Donor CTA -->
+  <div class="aud-only aud-donor">
+    <div class="wrap">
+      <div class="aud-cta-inner" data-reveal>
+        <div class="aud-cta-copy">
+          <span class="eyebrow">Make it possible</span>
+          <h2 style="margin-top: 16px;">Your gift funds<br><em>week one.</em></h2>
+          <p>Every dollar donated goes toward wages, coaching, wraparound services, and the facilities that make this work happen. Baker is half-funded by earned revenue from clients and half from philanthropy. Both matter.</p>
+          <div class="aud-cta-btns">
+            <a href="donate.html" class="btn btn-accent">Donate now →</a>
+            <a href="stories.html" class="btn btn-outline">See the impact</a>
+          </div>
+        </div>
+        <div class="aud-cta-img">
+          <img src="assets/img/Baker_Industries_00255.jpg" alt="A participant at work at Baker Industries." loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business CTA -->
+  <div class="aud-only aud-business">
+    <div class="wrap">
+      <div class="aud-cta-inner" data-reveal>
+        <div class="aud-cta-copy">
+          <span class="eyebrow">For business partners</span>
+          <h2 style="margin-top: 16px;">Your contract<br><em>funds the program.</em></h2>
+          <p>Roughly half of Baker's operating budget comes from client revenue — manufacturing, packaging, and fulfillment contracts. When you hire Baker, you get reliable production capacity and you directly fund job training for adults who need it most.</p>
+          <div class="aud-cta-btns">
+            <a href="capabilities.html" class="btn btn-accent">See our capabilities →</a>
+            <a href="capabilities.html#quote" class="btn btn-outline">Request a quote</a>
+          </div>
+        </div>
+        <div class="aud-cta-img">
+          <img src="assets/img/Baker_Industries_00281.jpg" alt="Baker Industries production floor." loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Closing -->
+<section class="closing">
+  <div class="wrap">
+    <div data-reveal>
+      <h2>Real work.<br><em>Real results.</em></h2>
+      <p>Read the stories of people who came to Baker and left with careers, stability, and a future they built themselves.</p>
+      <div class="closing-btns">
+        <a href="stories.html" class="btn btn-accent">Read the stories →</a>
+        <a href="about.html" class="btn btn-outline">About Baker Industries</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo" aria-label="Baker Industries home">
+          <img src="assets/img/logo.png" alt="Baker Industries" />
+        </a>
+        <p class="footer-tagline">Real work for real pay.<br>Malvern · Philadelphia · Norristown</p>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="donate.html">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="press.html">Press room</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Contact</div>
+        <div class="footer-links">
+          <a href="mailto:info@bakerindustries.org">info@bakerindustries.org</a>
+          <a href="tel:+16104445150">(610) 444-5150</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:16px; line-height:1.6;">
+          <em>Lives Changed</em> — our monthly story series. Real people. No spam.
+        </p>
+        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';" style="display:flex; gap:0;">
+          <input type="email" placeholder="your@email.com" required style="flex:1; background:var(--bg-card); border:1px solid var(--rule); border-right:none; border-radius:4px 0 0 4px; padding:11px 16px; color:var(--ink); font-family:var(--sans); font-size:14px;" />
+          <button type="submit" style="background:var(--accent); color:#0C0E0D; padding:11px 18px; border-radius:0 4px 4px 0; font-size:13px; font-weight:600; white-space:nowrap;">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3)</span>
+      <span>150 Monument Road, Malvern PA 19355</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Audience switcher ──────────────────────────────────
+  const tabs = document.querySelectorAll('.aud-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const aud = tab.dataset.aud;
+      document.documentElement.setAttribute('data-audience', aud);
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // ── Scroll reveal ──────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

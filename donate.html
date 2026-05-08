@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="donor">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate — Baker Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:         #0C0E0D;
+      --bg-2:       #161918;
+      --bg-card:    #1E2220;
+      --ink:        #EFE9DC;
+      --ink-2:      #A39B8E;
+      --rule:       rgba(239,233,220,0.1);
+      --accent:     #ED8054;
+      --accent-dk:  #C4562B;
+      --brand-blue: #688DA6;
+      --brand-sage: #B3BAA7;
+      --giving:     #7BAF8A;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', -apple-system, sans-serif;
+      --mono:       'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); }
+    section { padding: 96px 0; }
+    section.tight { padding: 56px 0; }
+
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 4px; font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap; }
+    .btn-accent  { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); transform: translateY(-1px); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.3); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: rgba(12,14,13,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 32px; }
+    .nav-logo { display: inline-flex; align-items: center; flex-shrink: 0; background: #fff; border-radius: 4px; padding: 4px 10px; }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 28px; font-size: 13.5px; font-weight: 500; color: var(--ink-2); }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate { background: var(--accent); color: #0C0E0D; padding: 9px 18px; border-radius: 4px; font-size: 13px; font-weight: 600; display: inline-block; }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Scroll reveal ───────────────────────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    /* ── Hero ────────────────────────────────────────────── */
+    .donate-hero { padding-top: 136px; padding-bottom: 80px; }
+    .donate-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: start; }
+    .donate-hero h1 { font-family: var(--serif); font-size: clamp(48px, 7vw, 96px); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 28px; }
+    .donate-hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-lede { font-size: 19px; line-height: 1.7; color: var(--ink-2); margin-bottom: 32px; max-width: 52ch; }
+    .hero-photo { border-radius: 4px; overflow: hidden; aspect-ratio: 4/5; position: sticky; top: 96px; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .tax-note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); margin-top: 12px; line-height: 1.7; }
+
+    /* ── Donate form ─────────────────────────────────────── */
+    .donate-box { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 6px; padding: 40px; }
+    .freq-tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--bg-2); border: 1px solid var(--rule); border-radius: 999px; margin-bottom: 28px; }
+    .freq-btn { padding: 9px 20px; border-radius: 999px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); transition: all .15s; }
+    .freq-btn.active { background: var(--ink); color: #0C0E0D; }
+    .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+    .amount-btn { padding: 20px; background: var(--bg-2); border: 1px solid var(--rule); border-radius: 4px; font-family: var(--serif); font-size: 26px; letter-spacing: -0.01em; transition: all .15s; color: var(--ink); }
+    .amount-btn.active { background: var(--accent); color: #0C0E0D; border-color: var(--accent); }
+    .amount-btn:hover:not(.active) { border-color: var(--ink-2); }
+    .amount-custom { display: flex; align-items: center; gap: 0; background: var(--bg-2); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 24px; }
+    .amount-custom span { padding: 14px 16px; color: var(--ink-2); font-size: 17px; }
+    .amount-custom input { flex: 1; background: transparent; border: 0; outline: none; font-family: var(--serif); font-size: 22px; color: var(--ink); padding: 14px 8px; }
+    .impact-display { border-top: 1px solid var(--rule); padding: 20px 0; margin-bottom: 20px; font-family: var(--serif); font-size: 20px; line-height: 1.5; color: var(--ink-2); }
+    .impact-display strong { color: var(--accent); font-weight: 400; }
+    .donate-cta { width: 100%; padding: 18px; background: var(--accent); color: #0C0E0D; border: none; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background .2s; letter-spacing: 0.01em; }
+    .donate-cta:hover { background: var(--accent-dk); }
+    .payment-note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); text-align: center; margin-top: 12px; line-height: 1.7; }
+
+    /* ── Impact panel ────────────────────────────────────── */
+    .impact-panel { margin-top: 40px; }
+    .impact-panel-head { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
+    .impact-rows { display: flex; flex-direction: column; }
+    .impact-row { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+    .impact-row:first-child { border-top: 1px solid var(--rule); }
+    .impact-row-amt { font-family: var(--serif); font-size: 18px; color: var(--accent); }
+    .impact-row-desc { font-size: 14px; color: var(--ink-2); max-width: 32ch; text-align: right; }
+
+    /* ── Stats band ──────────────────────────────────────── */
+    .stats-band { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--bg-2); }
+    .stats-band-inner { display: grid; grid-template-columns: repeat(4, 1fr); border-left: 1px solid var(--rule); }
+    .stat-cell { padding: 40px 32px; border-right: 1px solid var(--rule); }
+    .stat-big { font-family: var(--serif); font-size: clamp(40px, 5vw, 64px); line-height: 1; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 10px; }
+    .stat-label { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+
+    /* ── Ways to give ────────────────────────────────────── */
+    .ways-section h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px; margin-bottom: 56px; }
+    .ways-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--rule); }
+    .way-card { padding: 36px 32px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; min-height: 260px; }
+    .way-card:nth-child(3n) { border-right: none; }
+    .way-card.span-2 { grid-column: span 2; }
+    .way-num { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
+    .way-name { font-family: var(--serif); font-size: 26px; line-height: 1.1; margin-bottom: 12px; }
+    .way-desc { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin-bottom: auto; }
+    .way-link { margin-top: 24px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .way-link:hover { color: var(--ink); }
+
+    /* ── Allocation ──────────────────────────────────────── */
+    .alloc-section { background: var(--bg-card); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .alloc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .alloc-copy h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px; }
+    .alloc-copy h2 em { font-style: italic; color: var(--accent); }
+    .alloc-bars { margin-top: 40px; display: flex; flex-direction: column; gap: 0; }
+    .alloc-bar-row { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+    .alloc-bar-row:first-child { border-top: 1px solid var(--rule); }
+    .alloc-bar-top { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .alloc-bar-label { font-size: 15px; }
+    .alloc-bar-pct { font-family: var(--serif); font-size: 22px; color: var(--accent); }
+    .alloc-bar-track { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+    .alloc-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+    .alloc-note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); margin-top: 16px; line-height: 1.7; }
+    .alloc-photo { border-radius: 4px; overflow: hidden; aspect-ratio: 3/4; }
+    .alloc-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Story pull quote ────────────────────────────────── */
+    .quote-band { background: var(--bg-2); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .quote-band-inner { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: center; }
+    .quote-photo { border-radius: 4px; overflow: hidden; aspect-ratio: 1/1; }
+    .quote-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .pull-quote { font-family: var(--serif); font-size: clamp(24px, 3vw, 36px); line-height: 1.3; letter-spacing: -0.01em; }
+    .pull-quote-attr { margin-top: 20px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+
+    /* ── Closing ─────────────────────────────────────────── */
+    .closing { text-align: center; }
+    .closing h2 { font-family: var(--serif); font-size: clamp(32px, 4.5vw, 60px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .closing h2 em { font-style: italic; color: var(--accent); }
+    .closing p { font-size: 16px; color: var(--ink-2); margin-bottom: 36px; max-width: 50ch; margin-left: auto; margin-right: auto; }
+    .closing-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .footer { background: #060706; padding: 64px 0 40px; border-top: 1px solid var(--rule); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px; margin-bottom: 56px; }
+    .footer-logo { display: inline-flex; align-items: center; background: #fff; border-radius: 4px; padding: 4px 10px; margin-bottom: 20px; }
+    .footer-logo img { height: 28px; width: auto; display: block; }
+    .footer-tagline { font-size: 13px; color: var(--ink-2); line-height: 1.6; max-width: 30ch; }
+    .footer-col-head { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); flex-wrap: wrap; gap: 12px; }
+
+    @media (max-width: 900px) {
+      .donate-hero-grid { grid-template-columns: 1fr; }
+      .hero-photo { position: static; aspect-ratio: 3/2; }
+      .stats-band-inner { grid-template-columns: repeat(2, 1fr); }
+      .ways-grid { grid-template-columns: 1fr; }
+      .way-card { border-right: none !important; }
+      .way-card.span-2 { grid-column: span 1; }
+      .alloc-grid { grid-template-columns: 1fr; }
+      .quote-band-inner { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html">Stories</a>
+      <a href="programs.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html">For Business</a>
+      <a href="news.html">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#give" class="nav-donate">Donate →</a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero — no audience bar on donate; this page speaks to donors -->
+<section class="donate-hero tight">
+  <div class="wrap">
+    <div class="donate-hero-grid">
+      <div data-reveal>
+        <span class="eyebrow" style="color: var(--accent);">Support Baker Industries</span>
+        <h1 style="margin-top: 20px;">Fund a paycheck.<br><em>Change a life.</em></h1>
+        <p class="hero-lede">Baker takes no government funding. Every dollar you give covers direct program costs — paid transitional wages, coaching, counseling, and the team that makes it all possible. Your gift is fully tax-deductible.</p>
+
+        <!-- Quick stats -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--rule); margin-bottom: 32px; margin-top: 36px;">
+          <div style="padding: 24px 20px; border-right: 1px solid var(--rule);">
+            <div style="font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--accent); margin-bottom: 8px;">$19<span style="font-size: 22px;">/hr</span></div>
+            <div style="font-size: 13px; color: var(--ink-2);">Average starting wage<br>for 2025 graduates</div>
+          </div>
+          <div style="padding: 24px 20px;">
+            <div style="font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--accent); margin-bottom: 8px;">60</div>
+            <div style="font-size: 13px; color: var(--ink-2);">Participants placed<br>in jobs in 2024</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="#give" class="btn btn-accent">Donate now →</a>
+          <a href="stories.html" class="btn btn-outline">Read the stories</a>
+        </div>
+        <p class="tax-note">Baker Industries is a 501(c)(3) nonprofit. EIN available on request.<br>Donations are tax-deductible to the fullest extent allowed by law.</p>
+      </div>
+      <div data-reveal>
+        <div class="hero-photo">
+          <img src="assets/img/IMG_0278.jpg" alt="A Baker Industries participant at work." loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats band -->
+<section class="stats-band tight">
+  <div class="wrap">
+    <div class="stats-band-inner" data-reveal>
+      <div class="stat-cell">
+        <div class="stat-big">12K+</div>
+        <div class="stat-label">Adults served<br>since 1980</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-big">$1.2M</div>
+        <div class="stat-label">Raised through<br>philanthropy in 2024</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-big">50%</div>
+        <div class="stat-label">Of Baker's budget<br>funded by donations</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-big">46yr</div>
+        <div class="stat-label">Of uninterrupted<br>service since 1980</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Donate form + impact breakdown -->
+<section id="give">
+  <div class="wrap">
+    <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px;" data-reveal>
+
+      <!-- Form -->
+      <div>
+        <span class="eyebrow">Give now</span>
+        <h2 style="font-family: var(--serif); font-size: clamp(28px, 3.5vw, 44px); line-height: 1.1; letter-spacing: -0.015em; margin: 16px 0 28px;">How often?</h2>
+        <div class="donate-box">
+          <div class="freq-tabs" id="freqTabs">
+            <button class="freq-btn active" data-freq="monthly">Monthly</button>
+            <button class="freq-btn" data-freq="onetime">One-time</button>
+            <button class="freq-btn" data-freq="annual">Annual</button>
+          </div>
+
+          <div class="eyebrow" style="margin-bottom: 12px;">Amount</div>
+          <div class="amount-grid" id="amtGrid">
+            <button class="amount-btn" data-amt="25">$25</button>
+            <button class="amount-btn active" data-amt="50">$50</button>
+            <button class="amount-btn" data-amt="100">$100</button>
+            <button class="amount-btn" data-amt="250">$250</button>
+            <button class="amount-btn" data-amt="500">$500</button>
+            <button class="amount-btn" data-amt="1000">$1,000</button>
+          </div>
+          <div class="amount-custom">
+            <span>$</span>
+            <input type="number" placeholder="Other amount" id="customAmt" min="1" />
+          </div>
+
+          <div class="impact-display" id="impactDisplay">
+            <strong>$50/month</strong> covers roughly <strong>2.5 hours</strong> of paid transitional work every week for someone rebuilding their life.
+          </div>
+
+          <button class="donate-cta" onclick="this.textContent='Redirecting to secure checkout…'">
+            Continue to secure checkout →
+          </button>
+          <div class="payment-note">
+            Secure payment · Visa · Mastercard · Amex · ACH · Apple Pay<br>
+            Baker Industries is a 501(c)(3) · EIN on request
+          </div>
+        </div>
+      </div>
+
+      <!-- Impact breakdown -->
+      <div>
+        <span class="eyebrow">What your gift does</span>
+        <h2 style="font-family: var(--serif); font-size: clamp(24px, 3vw, 36px); line-height: 1.2; letter-spacing: -0.015em; margin: 16px 0 0;">Every dollar<br>goes to work.</h2>
+        <div class="impact-panel">
+          <div class="impact-panel-head">Monthly giving · impact per tier</div>
+          <div class="impact-rows">
+            <div class="impact-row">
+              <span class="impact-row-amt">$25/mo</span>
+              <span class="impact-row-desc">A week of workshop materials & coaching supplies</span>
+            </div>
+            <div class="impact-row">
+              <span class="impact-row-amt">$50/mo</span>
+              <span class="impact-row-desc">2.5 hours of paid transitional work, every week</span>
+            </div>
+            <div class="impact-row">
+              <span class="impact-row-amt">$100/mo</span>
+              <span class="impact-row-desc">A full day of paid employment — each month</span>
+            </div>
+            <div class="impact-row">
+              <span class="impact-row-amt">$250/mo</span>
+              <span class="impact-row-desc">Covers a participant's weekly wages for a month</span>
+            </div>
+            <div class="impact-row">
+              <span class="impact-row-amt">$500/mo</span>
+              <span class="impact-row-desc">Sponsors one full 12-week Job Readiness journey</span>
+            </div>
+            <div class="impact-row">
+              <span class="impact-row-amt">$1,200</span>
+              <span class="impact-row-desc">Sponsors one participant's entire program, once</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 32px; padding: 24px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 4px;">
+          <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--giving); margin-bottom: 10px;">The Workbench Circle</div>
+          <div style="font-family: var(--serif); font-size: 20px; margin-bottom: 10px;">Join our monthly giving community</div>
+          <p style="font-size: 14px; color: var(--ink-2); line-height: 1.7;">Predictable, recurring gifts let Baker say "yes" immediately when a referral comes in. Workbench Circle members receive our annual impact report and regular program updates.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Story pull quote -->
+<section class="quote-band">
+  <div class="wrap">
+    <div class="quote-band-inner" data-reveal>
+      <div class="quote-photo">
+        <img src="assets/img/IMG_0022.jpg" alt="A Baker Industries participant." loading="lazy" />
+      </div>
+      <div>
+        <div class="pull-quote">"I didn't think anyone would give me a chance after everything that had happened. Baker gave me a chance. Now I have a paycheck, an apartment, and a reason to get up on Monday."</div>
+        <div class="pull-quote-attr">— Tracey, Baker Industries graduate</div>
+        <div style="margin-top: 28px;">
+          <a href="stories.html" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-blue);">Read more stories →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ways to give -->
+<section class="ways-section">
+  <div class="wrap">
+    <div data-reveal>
+      <span class="eyebrow">Seven ways to give</span>
+      <h2>Find the one<br>that fits.</h2>
+    </div>
+    <div class="ways-grid" data-reveal>
+      <div class="way-card">
+        <div class="way-num">01 / Gift</div>
+        <div class="way-name">One-time donation</div>
+        <div class="way-desc">A single contribution — online, by check, or by DAF. Support whatever's most urgent right now.</div>
+        <a href="#give" class="way-link">Give once →</a>
+      </div>
+      <div class="way-card">
+        <div class="way-num">02 / Sustainer</div>
+        <div class="way-name">Monthly giving</div>
+        <div class="way-desc">Join the Workbench Circle. Recurring support lets us say yes to the next referral immediately.</div>
+        <a href="#give" class="way-link">Become a sustainer →</a>
+      </div>
+      <div class="way-card">
+        <div class="way-num">03 / Sponsor</div>
+        <div class="way-name">Sponsor a journey</div>
+        <div class="way-desc">$1,200 funds one participant's full 12-week program. We'll send you updates as they progress.</div>
+        <a href="mailto:nwatson@bakerindustries.org" class="way-link">Sponsor a participant →</a>
+      </div>
+      <div class="way-card">
+        <div class="way-num">04 / Sponsor</div>
+        <div class="way-name">Sponsor a workshop</div>
+        <div class="way-desc">Underwrite a weekly Job Readiness workshop — financial literacy, resume writing, or leadership development.</div>
+        <a href="mailto:nwatson@bakerindustries.org" class="way-link">Learn more →</a>
+      </div>
+      <div class="way-card">
+        <div class="way-num">05 / DAF</div>
+        <div class="way-name">Donor-Advised Fund</div>
+        <div class="way-desc">Grant from your DAF to Baker Industries EIN (available on request). Simple, tax-advantaged giving from existing funds.</div>
+        <a href="mailto:nwatson@bakerindustries.org" class="way-link">DAF instructions →</a>
+      </div>
+      <div class="way-card">
+        <div class="way-num">06 / Legacy</div>
+        <div class="way-name">Planned giving</div>
+        <div class="way-desc">Include Baker in your will, name us as a beneficiary, or make a gift of appreciated securities.</div>
+        <a href="mailto:nwatson@bakerindustries.org" class="way-link">Legacy information →</a>
+      </div>
+      <div class="way-card span-2" style="border-right: 1px solid var(--rule);">
+        <div class="way-num">07 / Corporate</div>
+        <div class="way-name">Corporate partnership</div>
+        <div class="way-desc" style="max-width: 54ch;">Pair your company's purchasing power with your philanthropy. Commission contract work with Baker, underwrite a workshop series, or sponsor a facility. We tailor partnerships for Fortune 500 CSR programs and local family businesses alike.</div>
+        <a href="capabilities.html" class="way-link">Partner with us →</a>
+      </div>
+      <div class="way-card">
+        <div class="way-num">08 / In-kind</div>
+        <div class="way-name">Equipment & in-kind</div>
+        <div class="way-desc">Industrial equipment, training technology, vehicles, and facility improvements. Tax-advantaged.</div>
+        <a href="mailto:nwatson@bakerindustries.org" class="way-link">Start a conversation →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Allocation / transparency -->
+<section class="alloc-section">
+  <div class="wrap">
+    <div class="alloc-grid">
+      <div data-reveal>
+        <span class="eyebrow">Transparency</span>
+        <h2 class="alloc-copy">88¢ of every dollar<br><em>goes to program.</em></h2>
+        <div class="alloc-bars" style="margin-top: 40px;">
+          <div class="alloc-bar-row">
+            <div class="alloc-bar-top">
+              <span class="alloc-bar-label">Direct program services</span>
+              <span class="alloc-bar-pct">88%</span>
+            </div>
+            <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width: 88%;"></div></div>
+          </div>
+          <div class="alloc-bar-row">
+            <div class="alloc-bar-top">
+              <span class="alloc-bar-label">Administration</span>
+              <span class="alloc-bar-pct">8%</span>
+            </div>
+            <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width: 8%; background: var(--brand-blue);"></div></div>
+          </div>
+          <div class="alloc-bar-row">
+            <div class="alloc-bar-top">
+              <span class="alloc-bar-label">Fundraising</span>
+              <span class="alloc-bar-pct">4%</span>
+            </div>
+            <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width: 4%; background: var(--brand-sage);"></div></div>
+          </div>
+        </div>
+        <p class="alloc-note" style="margin-top: 20px;">Baker is half-funded by earned business revenue — manufacturing, packaging, and fulfillment contracts. Philanthropy funds the other half. Both matter. Both are tax-beneficial.</p>
+      </div>
+      <div data-reveal>
+        <div class="alloc-photo">
+          <img src="assets/img/Baker_Industries_00618.jpg" alt="Baker Industries team at work." loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Closing -->
+<section class="closing">
+  <div class="wrap">
+    <div data-reveal>
+      <span class="eyebrow" style="display: block; margin-bottom: 20px;">Make it happen</span>
+      <h2>Work gets done.<br>People get better.<br><em>Everybody wins.</em></h2>
+      <p>Every paycheck is a comeback. Your gift is what makes the first one possible.</p>
+      <div class="closing-btns">
+        <a href="#give" class="btn btn-accent">Donate now →</a>
+        <a href="stories.html" class="btn btn-outline">See the impact</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo" aria-label="Baker Industries home">
+          <img src="assets/img/logo.png" alt="Baker Industries" />
+        </a>
+        <p class="footer-tagline">Real work for real pay.<br>Malvern · Philadelphia · Norristown</p>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="donate.html">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="press.html">Press room</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Contact</div>
+        <div class="footer-links">
+          <a href="mailto:info@bakerindustries.org">info@bakerindustries.org</a>
+          <a href="tel:+16104445150">(610) 444-5150</a>
+          <a href="tel:+16102969795">(610) 296-9795</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:16px; line-height:1.6;"><em>Lives Changed</em> — our monthly story series.</p>
+        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';" style="display:flex; gap:0;">
+          <input type="email" placeholder="your@email.com" required style="flex:1; background:var(--bg-card); border:1px solid var(--rule); border-right:none; border-radius:4px 0 0 4px; padding:11px 16px; color:var(--ink); font-family:var(--sans); font-size:14px;" />
+          <button type="submit" style="background:var(--accent); color:#0C0E0D; padding:11px 18px; border-radius:0 4px 4px 0; font-size:13px; font-weight:600; white-space:nowrap;">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3)</span>
+      <span>150 Monument Road, Malvern PA 19355</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Scroll reveal ──────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+  // ── Frequency tabs ─────────────────────────────────────
+  document.querySelectorAll('.freq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateImpact();
+    });
+  });
+
+  // ── Amount selection ───────────────────────────────────
+  const impactMap = {
+    monthly: {
+      25:   '$25/month covers a week of workshop materials and coaching supplies.',
+      50:   '$50/month covers roughly 2.5 hours of paid transitional work every week for someone rebuilding their life.',
+      100:  '$100/month covers a full day of paid employment — every single month.',
+      250:  '$250/month covers a participant\'s weekly wages for an entire month.',
+      500:  '$500/month sponsors one full 12-week Job Readiness Program journey.',
+      1000: '$1,000/month supports two participants through the full program.'
+    },
+    onetime: {
+      25:   '$25 covers supplies for one workshop session.',
+      50:   '$50 covers a week of coaching materials for one participant.',
+      100:  '$100 covers two full days of paid transitional employment.',
+      250:  '$250 covers wages for one participant for an entire week.',
+      500:  '$500 covers half of a participant\'s full program costs.',
+      1000: '$1,000 covers one participant\'s complete 12-week journey — wages, coaching, and support.'
+    },
+    annual: {
+      25:   '$25/year helps keep the lights on at one workshop session.',
+      50:   '$50/year supplies materials for an entire quarter of workshops.',
+      100:  '$100/year covers a full month of coaching supplies.',
+      250:  '$250/year funds a participant\'s wages for two full weeks.',
+      500:  '$500/year covers a month of wages for one participant.',
+      1000: '$1,000/year is a full year\'s sponsorship contribution toward one participant\'s journey.'
+    }
+  };
+
+  function getFreq() {
+    const active = document.querySelector('.freq-btn.active');
+    return active ? active.dataset.freq : 'monthly';
+  }
+
+  function getAmt() {
+    const active = document.querySelector('.amount-btn.active');
+    if (active) return parseInt(active.dataset.amt, 10);
+    const custom = document.getElementById('customAmt').value;
+    return custom ? parseInt(custom, 10) : 50;
+  }
+
+  function updateImpact() {
+    const freq = getFreq();
+    const amt = getAmt();
+    const map = impactMap[freq] || impactMap.monthly;
+    const closest = [25, 50, 100, 250, 500, 1000].reduce((a, b) =>
+      Math.abs(b - amt) < Math.abs(a - amt) ? b : a
+    );
+    const text = map[closest] || map[50];
+    const display = document.getElementById('impactDisplay');
+    if (display) display.innerHTML = text.replace(/(\$[\d,/a-z]+)/gi, '<strong>$1</strong>');
+  }
+
+  document.querySelectorAll('.amount-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('customAmt').value = '';
+      updateImpact();
+    });
+  });
+
+  document.getElementById('customAmt').addEventListener('input', () => {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    updateImpact();
+  });
+</script>
+</body>
+</html>

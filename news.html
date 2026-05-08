@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="donor">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News & Events — Baker Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:         #0C0E0D;
+      --bg-2:       #161918;
+      --bg-card:    #1E2220;
+      --ink:        #EFE9DC;
+      --ink-2:      #A39B8E;
+      --rule:       rgba(239,233,220,0.1);
+      --accent:     #ED8054;   /* events / CTAs */
+      --accent-dk:  #C4562B;
+      --brand-blue: #688DA6;   /* in the news */
+      --brand-sage: #B3BAA7;   /* guides */
+      --giving:     #7BAF8A;   /* giving */
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', -apple-system, sans-serif;
+      --mono:       'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+    .eyebrow  {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2);
+    }
+    section { padding: 72px 0; }
+    section.tight { padding: 48px 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 22px; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap;
+    }
+    .btn-accent { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.25); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    /* ── Category tag colors ──── */
+    .cat {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 500;
+      padding: 3px 8px; border-radius: 2px; display: inline-block;
+    }
+    .cat-news    { background: rgba(104,141,166,0.18); color: var(--brand-blue); }
+    .cat-event   { background: rgba(237,128,84,0.18);  color: var(--accent); }
+    .cat-guide   { background: rgba(179,186,167,0.18); color: var(--brand-sage); }
+    .cat-giving  { background: rgba(123,175,138,0.18); color: var(--giving); }
+
+    /* ── Nav ─────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(12,14,13,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 32px;
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      background: #fff; border-radius: 4px; padding: 4px 10px;
+    }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links {
+      display: flex; gap: 28px;
+      font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); border-bottom: 1.5px solid var(--accent); padding-bottom: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate {
+      background: var(--accent); color: #0C0E0D;
+      padding: 9px 18px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; display: inline-block;
+    }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Audience Bar ─────────── */
+    .audience-bar {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 55;
+      background: var(--bg-card); border-bottom: 1px solid var(--rule);
+    }
+    .audience-bar-inner { display: flex; align-items: center; height: 48px; }
+    .audience-bar-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px 0 0; white-space: nowrap; flex-shrink: 0;
+    }
+    .aud-tabs { display: flex; }
+    .aud-tab {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px; height: 48px; display: flex; align-items: center;
+      border-right: 1px solid var(--rule); cursor: pointer;
+      transition: color .15s; position: relative;
+    }
+    .aud-tab:first-child { border-left: 1px solid var(--rule); }
+    .aud-tab:hover { color: var(--ink); }
+    .aud-tab.active { color: var(--brand-blue); }
+    .aud-tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--brand-blue);
+    }
+
+    /* ── Page hero ────────────── */
+    .page-hero {
+      padding: 172px 0 56px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .page-hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 110px);
+      font-weight: 700; line-height: 0.94;
+      letter-spacing: -0.03em; margin: 16px 0 28px;
+    }
+    .page-hero-h1 em { font-style: italic; color: var(--accent); }
+    .page-hero-sub {
+      font-family: var(--serif); font-size: clamp(17px, 1.7vw, 22px);
+      line-height: 1.5; color: var(--ink-2); max-width: 52ch;
+    }
+
+    /* ── Upcoming event strip ─── */
+    .upcoming-strip {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--rule);
+    }
+    .upcoming-inner {
+      display: flex; align-items: center; gap: 40px;
+      padding: 24px 0; flex-wrap: wrap;
+    }
+    .upcoming-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); flex-shrink: 0;
+    }
+    .upcoming-events { display: flex; gap: 32px; flex-wrap: wrap; flex: 1; }
+    .upcoming-event {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .upcoming-date-block {
+      background: var(--accent); color: #0C0E0D;
+      border-radius: 4px; padding: 6px 10px; text-align: center; flex-shrink: 0;
+      min-width: 48px;
+    }
+    .upcoming-month {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+      text-transform: uppercase; display: block;
+    }
+    .upcoming-day {
+      font-family: var(--serif); font-size: 22px; font-weight: 700;
+      line-height: 1; display: block;
+    }
+    .upcoming-event-name {
+      font-size: 14px; font-weight: 500; line-height: 1.3;
+    }
+    .upcoming-event-loc {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+      color: var(--ink-2); margin-top: 3px;
+    }
+    .upcoming-divider {
+      width: 1px; height: 40px; background: var(--rule); flex-shrink: 0;
+    }
+
+    /* ── Filter bar ──────────── */
+    .filter-bar {
+      display: flex; gap: 0; flex-wrap: wrap;
+      border-bottom: 1px solid var(--rule);
+      position: sticky; top: 112px; z-index: 40;
+      background: var(--bg);
+    }
+    .filter-btn {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 16px 22px; cursor: pointer;
+      border-right: 1px solid var(--rule);
+      transition: color .15s; position: relative;
+    }
+    .filter-btn:hover { color: var(--ink); }
+    .filter-btn.active { color: var(--ink); }
+    .filter-btn.active::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .filter-btn[data-filter="all"].active::after    { background: var(--ink); }
+    .filter-btn[data-filter="news"].active::after   { background: var(--brand-blue); }
+    .filter-btn[data-filter="event"].active::after  { background: var(--accent); }
+    .filter-btn[data-filter="guide"].active::after  { background: var(--brand-sage); }
+    .filter-btn[data-filter="giving"].active::after { background: var(--giving); }
+    .filter-count {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+      color: var(--ink-2); margin-left: 6px; opacity: 0.7;
+    }
+
+    /* ── Featured post ────────── */
+    .featured-post {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; border-bottom: 1px solid var(--rule);
+    }
+    .featured-photo { position: relative; overflow: hidden; }
+    .featured-photo img {
+      width: 100%; height: 100%; object-fit: cover; min-height: 420px;
+      transition: transform .6s ease;
+    }
+    .featured-post:hover .featured-photo img { transform: scale(1.03); }
+    .featured-photo-cap {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 12px 16px 10px;
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #fff;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    }
+    .featured-body {
+      padding: 52px 48px;
+      display: flex; flex-direction: column; justify-content: center;
+      border-left: 1px solid var(--rule);
+    }
+    .featured-meta {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .featured-date {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+    }
+    .featured-h2 {
+      font-family: var(--serif);
+      font-size: clamp(26px, 2.8vw, 40px);
+      font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .featured-excerpt {
+      font-size: 16px; line-height: 1.65; color: var(--ink-2);
+      margin-bottom: 28px; max-width: 48ch;
+    }
+    .featured-eyebrow {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 8px;
+    }
+
+    /* ── News grid ────────────── */
+    .news-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--rule);
+    }
+    .news-card {
+      padding: 32px 28px 36px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: flex; flex-direction: column;
+      transition: background .2s ease; cursor: pointer;
+    }
+    .news-card:hover { background: var(--bg-card); }
+    .news-card:nth-child(3n) { border-right: none; }
+
+    /* "In the News" cards have a subtle left accent */
+    .news-card.type-news {
+      border-left: 3px solid var(--brand-blue);
+      padding-left: 25px;
+    }
+    .news-card.type-news:nth-child(3n+1) { border-left: 3px solid var(--brand-blue); }
+
+    .card-photo {
+      margin: -32px -28px 24px; overflow: hidden; position: relative;
+    }
+    .card-photo.type-news-photo { margin-left: -25px; }
+    .card-photo img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block;
+      transition: transform .5s ease;
+    }
+    .news-card:hover .card-photo img { transform: scale(1.04); }
+
+    .card-outlet {
+      font-family: var(--serif); font-size: 13px; font-weight: 700;
+      color: var(--brand-blue); margin-bottom: 6px; letter-spacing: 0;
+    }
+    .card-meta {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .card-date {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+    }
+    .card-h3 {
+      font-family: var(--serif); font-size: clamp(18px, 1.6vw, 22px);
+      font-weight: 700; line-height: 1.2; letter-spacing: -0.01em;
+      margin-bottom: 10px; flex: 1;
+    }
+    .card-excerpt {
+      font-size: 14px; line-height: 1.65; color: var(--ink-2);
+      margin-bottom: 18px; flex: 1;
+    }
+    .card-read {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;
+      padding-bottom: 1px; border-bottom: 1px solid transparent;
+      transition: border-color .15s;
+    }
+    .card-read.clr-news   { color: var(--brand-blue); }
+    .card-read.clr-event  { color: var(--accent); }
+    .card-read.clr-guide  { color: var(--brand-sage); }
+    .card-read.clr-giving { color: var(--giving); }
+    .news-card:hover .card-read { border-bottom-color: currentColor; }
+
+    /* ── Press room prompt ────── */
+    .press-prompt {
+      background: var(--bg-2);
+      padding: 56px 0;
+    }
+    .press-prompt-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 48px; flex-wrap: wrap;
+    }
+    .press-prompt-text h3 {
+      font-family: var(--serif); font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 700; line-height: 1.1; letter-spacing: -0.015em;
+      margin-bottom: 8px;
+    }
+    .press-prompt-text h3 em { font-style: italic; color: var(--brand-blue); }
+    .press-prompt-text p {
+      font-size: 15px; color: var(--ink-2); line-height: 1.6; max-width: 52ch;
+    }
+    .press-prompt-ctas { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+
+    /* ── Footer ──────────────── */
+    .footer { background: #080A09; padding: 72px 0 40px; border-top: 1px solid var(--rule); }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 48px; margin-bottom: 60px;
+    }
+    .footer-logo { margin-bottom: 16px; display: inline-block; background: #fff; border-radius: 4px; padding: 6px 12px; }
+    .footer-logo img { height: 44px; width: auto; display: block; }
+    .footer-tagline {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2); line-height: 1.7;
+    }
+    .footer-col-head {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-locations { display: flex; flex-direction: column; gap: 14px; }
+    .footer-loc-name { font-size: 14px; font-weight: 500; }
+    .footer-loc-addr { font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+    .footer-email-form {
+      display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-top: 12px;
+    }
+    .footer-email-form input {
+      flex: 1; background: transparent; border: none; color: var(--ink);
+      padding: 11px 14px; font: inherit; font-size: 14px; outline: none;
+    }
+    .footer-email-form input::placeholder { color: var(--ink-2); }
+    .footer-email-form button {
+      background: var(--accent); color: #0C0E0D; padding: 0 16px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    }
+    .footer-email-form button:hover { background: var(--accent-dk); }
+    .footer-bottom {
+      padding-top: 24px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-2);
+    }
+    .footer-social { display: flex; gap: 18px; }
+    .footer-social a:hover { color: var(--ink); }
+
+    /* ── Reveal ──────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    /* ── Responsive ──────────── */
+    @media (max-width: 960px) {
+      .wrap, .wrap-mid { padding: 0 20px; }
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-photo img { min-height: 280px; }
+      .featured-body { padding: 32px 28px; border-left: none; border-top: 1px solid var(--rule); }
+      .news-grid { grid-template-columns: 1fr 1fr; }
+      .news-card:nth-child(3n) { border-right: 1px solid var(--rule); }
+      .news-card:nth-child(2n) { border-right: none; }
+      .press-prompt-inner { flex-direction: column; gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .upcoming-events { gap: 20px; }
+    }
+    @media (max-width: 600px) {
+      .news-grid { grid-template-columns: 1fr; }
+      .news-card { border-right: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html">Stories</a>
+      <a href="programs.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html">For Business</a>
+      <a href="news.html" class="active">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="donate.html" class="nav-donate">Donate →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════ AUDIENCE BAR ══════════════ -->
+<div class="audience-bar">
+  <div class="wrap audience-bar-inner">
+    <span class="audience-bar-label">I'm visiting as</span>
+    <div class="aud-tabs" role="tablist">
+      <button class="aud-tab active" data-aud="donor"       role="tab" aria-selected="true">A donor or supporter</button>
+      <button class="aud-tab"        data-aud="participant"  role="tab" aria-selected="false">Looking for work</button>
+      <button class="aud-tab"        data-aud="business"    role="tab" aria-selected="false">A business partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PAGE HERO ══════════════ -->
+<div class="page-hero wrap">
+  <span class="eyebrow">News · Events · Press coverage · Guides</span>
+  <h1 class="page-hero-h1">
+    What's happening<br>at <em>Baker.</em>
+  </h1>
+  <p class="page-hero-sub">
+    Events on the calendar, stories in the news, and original writing
+    from Baker's team on workforce, fair chance hiring, and the power of work.
+  </p>
+</div>
+
+<!-- ══════════════ UPCOMING EVENTS ══════════════ -->
+<div class="upcoming-strip">
+  <div class="wrap upcoming-inner">
+    <span class="upcoming-label">Upcoming</span>
+    <div class="upcoming-events">
+      <div class="upcoming-event">
+        <div class="upcoming-date-block">
+          <span class="upcoming-month">May</span>
+          <span class="upcoming-day">5</span>
+        </div>
+        <div>
+          <div class="upcoming-event-name">24th Annual Golf Invitational</div>
+          <div class="upcoming-event-loc">Applebrook Golf Club · Malvern, PA · Presented by WSFS Bank</div>
+        </div>
+      </div>
+      <div class="upcoming-divider"></div>
+      <div class="upcoming-event">
+        <div class="upcoming-date-block" style="background: var(--bg-card); color: var(--ink); border: 1px solid var(--rule);">
+          <span class="upcoming-month" style="color:var(--ink-2);">TBD</span>
+          <span class="upcoming-day" style="font-size:16px;">2026</span>
+        </div>
+        <div>
+          <div class="upcoming-event-name">45th Annual Celebration Gala</div>
+          <div class="upcoming-event-loc">Details coming soon</div>
+        </div>
+      </div>
+    </div>
+    <a href="#events-section" class="btn btn-outline" style="font-size:13px; padding:10px 18px; flex-shrink:0;">All events →</a>
+  </div>
+</div>
+
+<!-- ══════════════ FILTER BAR ══════════════ -->
+<div class="filter-bar" role="tablist" aria-label="Filter content">
+  <button class="filter-btn active" data-filter="all">All <span class="filter-count" id="count-all"></span></button>
+  <button class="filter-btn" data-filter="news">In the news <span class="filter-count" id="count-news"></span></button>
+  <button class="filter-btn" data-filter="event">Events <span class="filter-count" id="count-event"></span></button>
+  <button class="filter-btn" data-filter="guide">Guides <span class="filter-count" id="count-guide"></span></button>
+  <button class="filter-btn" data-filter="giving">Giving <span class="filter-count" id="count-giving"></span></button>
+</div>
+
+<!-- ══════════════ FEATURED POST ══════════════ -->
+<article class="featured-post news-item" data-type="guide" data-reveal>
+  <div class="featured-photo">
+    <img
+      src="assets/img/Baker_Industries_00093.jpg"
+      alt="The Baker Industries production floor in Philadelphia."
+    >
+    <div class="featured-photo-cap">I Street · Philadelphia</div>
+  </div>
+  <div class="featured-body">
+    <div class="featured-eyebrow">Latest · Guide</div>
+    <div class="featured-meta">
+      <span class="cat cat-guide">Guide</span>
+      <span class="featured-date">April 13, 2026</span>
+    </div>
+    <h2 class="featured-h2">A Six-Point Fair Chance Guide for Employers and the Business Community</h2>
+    <p class="featured-excerpt">
+      About 25,000 people are released each year from local jails, state prisons, and federal
+      facilities into Philadelphia alone. Roughly one in five Philadelphians has some form of
+      criminal record. This isn't a fringe issue — it's a citywide reality.
+    </p>
+    <a href="#" class="btn btn-outline" style="align-self:flex-start;">Read the guide →</a>
+  </div>
+</article>
+
+<!-- ══════════════ NEWS GRID ══════════════ -->
+<div class="wrap" style="padding: 0 36px;">
+  <div class="news-grid" id="news-grid">
+
+    <!-- NBC10 / NDEAM — In the News -->
+    <article class="news-card type-news news-item" data-type="news">
+      <div class="card-photo type-news-photo">
+        <img
+          src="assets/img/Baker_Industries_00745.jpg"
+          alt="Baker Industries participant Pete on the production floor."
+        >
+      </div>
+      <div class="card-outlet">NBC10 Philadelphia</div>
+      <div class="card-meta">
+        <span class="cat cat-news">In the news</span>
+        <span class="card-date">Oct 27, 2025</span>
+      </div>
+      <h3 class="card-h3">NBC10 Visits Baker Industries for National Disability Employment Awareness Month</h3>
+      <p class="card-excerpt">Reporter Matt DeLucia spent the day with Pete, a legally blind participant known for precision, consistency, and bringing positivity to every task — and every person — he meets.</p>
+      <a href="#" class="card-read clr-news">Watch the segment →</a>
+    </article>
+
+    <!-- Golf Invitational 2026 — Event -->
+    <article class="news-card news-item" data-type="event" id="events-section">
+      <div class="card-photo">
+        <img
+          src="assets/img/IMG_0044.jpg"
+          alt="Baker Industries participants and supporters together."
+        >
+      </div>
+      <div class="card-meta">
+        <span class="cat cat-event">Event</span>
+        <span class="card-date">May 5, 2026</span>
+      </div>
+      <h3 class="card-h3">24th Annual Golf Invitational — Applebrook Golf Club, Malvern</h3>
+      <p class="card-excerpt">Join us for a day of connection, friendly competition, and purpose. Presented by Grand Sponsor WSFS Bank. Every swing supports someone's fresh start.</p>
+      <a href="#" class="card-read clr-event">Register →</a>
+    </article>
+
+    <!-- DAF / Giving -->
+    <article class="news-card news-item" data-type="giving">
+      <div class="card-meta" style="margin-top: 8px;">
+        <span class="cat cat-giving">Giving</span>
+        <span class="card-date">Oct 2, 2025</span>
+      </div>
+      <h3 class="card-h3" style="font-size: clamp(20px, 1.8vw, 26px); margin-top: 8px;">How Your Donor-Advised Fund Can Build Second Chances at Baker Industries</h3>
+      <p class="card-excerpt">DAF Day is a moment to give with intention. If you have a Donor-Advised Fund, it's one of the easiest, most impactful ways to invest directly in second chances and fair chance employment.</p>
+      <a href="#" class="card-read clr-giving">Read more →</a>
+    </article>
+
+    <!-- 6ABC Feature — In the News -->
+    <article class="news-card type-news news-item" data-type="news">
+      <div class="card-outlet">6ABC Philadelphia</div>
+      <div class="card-meta">
+        <span class="cat cat-news">In the news</span>
+        <span class="card-date">July 14, 2025</span>
+      </div>
+      <h3 class="card-h3">Baker Industries Featured on 6ABC</h3>
+      <p class="card-excerpt">This feature celebrates our incredible founder Charlie and the powerful legacy he created — with participants in action and heartfelt interviews with those who make it all possible.</p>
+      <a href="#" class="card-read clr-news">Watch the segment →</a>
+    </article>
+
+    <!-- Charlie's 100th Birthday — In the News -->
+    <article class="news-card type-news news-item" data-type="news">
+      <div class="card-photo type-news-photo">
+        <img
+          src="assets/img/Baker_Industries_00010.jpg"
+          alt="The Baker Industries team celebrating together."
+        >
+      </div>
+      <div class="card-outlet">WHYY · Main Line Today · CBS3</div>
+      <div class="card-meta">
+        <span class="cat cat-news">In the news</span>
+        <span class="card-date">July 1, 2025</span>
+      </div>
+      <h3 class="card-h3">The Media Celebrates Charlie Baker's 100th Birthday</h3>
+      <p class="card-excerpt">All of Baker came together to celebrate with live music, dinner, and desserts. WHYY, CBS3, and Main Line Today all covered the milestone — and the 45-year legacy Charlie and Weezie built.</p>
+      <a href="#" class="card-read clr-news">Read coverage →</a>
+    </article>
+
+    <!-- Gala 2025 — Event -->
+    <article class="news-card news-item" data-type="event">
+      <div class="card-photo">
+        <img
+          src="assets/img/IMG_0238.jpg"
+          alt="Products made at Baker Industries — beautiful packaged goods."
+        >
+      </div>
+      <div class="card-meta">
+        <span class="cat cat-event">Event</span>
+        <span class="card-date">2025</span>
+      </div>
+      <h3 class="card-h3">44th Annual Celebration Gala — Honoring Rick and Lesty Ill</h3>
+      <p class="card-excerpt">For 45 years Baker has been creating "sweet success" stories. This year's gala honored Rick and Lesty Ill for decades of commitment to Baker's mission and participants.</p>
+      <a href="#" class="card-read clr-event">Learn more →</a>
+    </article>
+
+    <!-- Second-Chance Hiring — Guide -->
+    <article class="news-card news-item" data-type="guide">
+      <div class="card-meta" style="margin-top: 8px;">
+        <span class="cat cat-guide">Guide</span>
+        <span class="card-date">April 16, 2025</span>
+      </div>
+      <h3 class="card-h3" style="margin-top: 8px;">Why Fair Chance Hiring Makes Sense — and How You Can Get Involved</h3>
+      <p class="card-excerpt">Each year, thousands of individuals return home from incarceration ready to work and rebuild. But too often, a criminal record becomes a permanent barrier. Here's how the business community can change that.</p>
+      <a href="#" class="card-read clr-guide">Read the guide →</a>
+    </article>
+
+    <!-- Community Resource Fair — Event -->
+    <article class="news-card news-item" data-type="event">
+      <div class="card-photo">
+        <img
+          src="assets/img/IMG_0022.jpg"
+          alt="Baker Industries community gathering."
+        >
+      </div>
+      <div class="card-meta">
+        <span class="cat cat-event">Event</span>
+        <span class="card-date">May 23, 2025</span>
+      </div>
+      <h3 class="card-h3">Building Bridges at the Baker Community Resource Fair</h3>
+      <p class="card-excerpt">A free event bringing together organizations offering resources across housing, healthcare, employment, and more. Held at 3630 I Street, Philadelphia.</p>
+      <a href="#" class="card-read clr-event">Learn more →</a>
+    </article>
+
+    <!-- Golf 2025 — Event -->
+    <article class="news-card news-item" data-type="event">
+      <div class="card-meta" style="margin-top: 8px;">
+        <span class="cat cat-event">Event</span>
+        <span class="card-date">May 6, 2025</span>
+      </div>
+      <h3 class="card-h3" style="margin-top: 8px;">23rd Annual Golf Outing at Applebrook Golf Club</h3>
+      <p class="card-excerpt">A day of connection, friendly competition, and purpose — all in support of Baker's mission. Community members, businesses, and supporters came together at Applebrook in Malvern, PA.</p>
+      <a href="#" class="card-read clr-event">View recap →</a>
+    </article>
+
+  </div>
+</div>
+
+<!-- ══════════════ PRESS ROOM PROMPT ══════════════ -->
+<section class="press-prompt" data-reveal>
+  <div class="wrap press-prompt-inner">
+    <div class="press-prompt-text">
+      <h3>Are you a <em>reporter</em>?</h3>
+      <p>Boilerplate, fact sheet, logo files, photo library, and spokesperson contacts — all in one place. We respond to media requests in under four hours.</p>
+    </div>
+    <div class="press-prompt-ctas">
+      <a href="press.html" class="btn btn-outline" style="border-color: var(--brand-blue); color: var(--brand-blue);">Press room →</a>
+      <a href="mailto:communications@bakerindustries.org" class="btn btn-outline">Email communications</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="assets/img/logo.png" alt="Baker Industries" />
+        </div>
+        <p class="footer-tagline">
+          501(c)(3) workforce development nonprofit.<br>
+          Demonstrating the power of work since 1980.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-head">Locations</div>
+        <div class="footer-locations">
+          <div><div class="footer-loc-name">Philadelphia</div><div class="footer-loc-addr">3630 I Street</div></div>
+          <div><div class="footer-loc-name">Malvern</div><div class="footer-loc-addr">184 Pennsylvania Ave</div></div>
+          <div><div class="footer-loc-name">Norristown</div><div class="footer-loc-addr">9 S Forrest Ave</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="donate.html">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="news.html">News</a>
+          <a href="press.html">Press kit</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:6px; line-height:1.6;">
+          <em>Lives Changed</em> — our monthly story series. No spam.
+        </p>
+        <form class="footer-email-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';">
+          <input type="email" placeholder="your@email.com" required />
+          <button type="submit">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3) · bakerindustries.org</span>
+      <div class="footer-social">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Audience switcher ──────────────────────────
+  document.querySelectorAll('.aud-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.documentElement.setAttribute('data-audience', tab.dataset.aud);
+      document.querySelectorAll('.aud-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    });
+  });
+
+  // ── Filter + counts ────────────────────────────
+  const items = document.querySelectorAll('.news-item');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  // Compute counts
+  const counts = { all: items.length, news: 0, event: 0, guide: 0, giving: 0 };
+  items.forEach(item => {
+    const t = item.dataset.type;
+    if (counts[t] !== undefined) counts[t]++;
+  });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('count-' + k);
+    if (el) el.textContent = counts[k];
+  });
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      // Featured post
+      const featured = document.querySelector('.featured-post');
+      if (featured) {
+        featured.style.display = (filter === 'all' || featured.dataset.type === filter) ? '' : 'none';
+      }
+
+      // Grid cards
+      items.forEach(item => {
+        if (item === featured) return;
+        item.style.display = (filter === 'all' || item.dataset.type === filter) ? 'flex' : 'none';
+      });
+    });
+  });
+
+  // ── Scroll reveal ──────────────────────────────
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.06 }
+  );
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

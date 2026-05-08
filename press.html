@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="donor">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News & Press — Baker Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:        #0C0E0D;
+      --bg-2:      #161918;
+      --bg-card:   #1E2220;
+      --ink:       #EFE9DC;
+      --ink-2:     #A39B8E;
+      --rule:      rgba(239,233,220,0.1);
+      --accent:    #ED8054;
+      --accent-dk: #C4562B;
+      --brand-blue:#688DA6;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'Inter', -apple-system, sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+
+    .eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2);
+    }
+
+    section { padding: 72px 0; }
+    section.tight { padding: 48px 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap;
+    }
+    .btn-accent  { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.3); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    /* ── Nav ────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(12,14,13,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 32px;
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      background: #fff; border-radius: 4px; padding: 4px 10px;
+    }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links {
+      display: flex; gap: 28px;
+      font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); border-bottom: 1.5px solid var(--accent); padding-bottom: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate {
+      background: var(--accent); color: #0C0E0D;
+      padding: 9px 18px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; display: inline-block;
+    }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Audience Bar ───────────── */
+    .audience-bar {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 55;
+      background: var(--bg-card); border-bottom: 1px solid var(--rule);
+    }
+    .audience-bar-inner { display: flex; align-items: center; height: 48px; }
+    .audience-bar-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px 0 0; white-space: nowrap; flex-shrink: 0;
+    }
+    .aud-tabs { display: flex; }
+    .aud-tab {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px; height: 48px; display: flex; align-items: center;
+      border-right: 1px solid var(--rule); cursor: pointer;
+      transition: color .15s; position: relative;
+    }
+    .aud-tab:first-child { border-left: 1px solid var(--rule); }
+    .aud-tab:hover { color: var(--ink); }
+    .aud-tab.active { color: var(--brand-blue); }
+    .aud-tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--brand-blue);
+    }
+
+    /* ── Page hero ──────────────── */
+    .page-hero {
+      padding: 172px 0 64px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .page-hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(56px, 8vw, 120px);
+      font-weight: 700; line-height: 0.94;
+      letter-spacing: -0.03em;
+      margin: 16px 0 28px;
+    }
+    .page-hero-h1 em { font-style: italic; color: var(--accent); }
+    .page-hero-lede {
+      font-family: var(--serif); font-size: clamp(18px, 1.8vw, 23px);
+      line-height: 1.5; color: var(--ink-2); max-width: 56ch;
+    }
+
+    /* ── Media contact card ──────── */
+    .contact-card {
+      background: var(--ink); color: var(--bg);
+      border-radius: 4px; padding: 52px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+      align-items: center;
+    }
+    .contact-h2 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700; line-height: 1.02; letter-spacing: -0.025em;
+    }
+    .contact-h2 em { font-style: italic; color: var(--accent); }
+    .contact-line {
+      padding: 14px 0;
+      border-top: 1px solid rgba(12,14,13,0.15);
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(12,14,13,0.55);
+    }
+    .contact-line strong {
+      display: block; font-family: var(--serif); font-size: 20px;
+      letter-spacing: -0.01em; color: var(--bg); font-weight: 400;
+      margin-top: 4px; text-transform: none;
+    }
+    .contact-line a { color: var(--bg); border-bottom: 1px solid rgba(12,14,13,0.25); }
+    .contact-line a:hover { border-bottom-color: var(--accent); }
+
+    /* ── Coverage list ──────────── */
+    .section-rule {
+      border: none; border-top: 2px solid var(--ink); margin-bottom: 0;
+    }
+    .coverage-list { margin-top: 0; }
+    .cov-item {
+      display: grid;
+      grid-template-columns: 140px 1fr 180px 120px;
+      gap: 32px; padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+      transition: background .15s;
+      cursor: pointer;
+    }
+    .cov-item:hover { background: var(--bg-card); margin: 0 -24px; padding: 28px 24px; border-radius: 4px; }
+    .cov-outlet {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .cov-hed {
+      font-family: var(--serif); font-size: clamp(18px, 1.8vw, 24px);
+      line-height: 1.2; letter-spacing: -0.01em;
+    }
+    .cov-kind {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.08em; color: var(--ink-2); text-transform: uppercase;
+    }
+    .cov-date {
+      font-family: var(--mono); font-size: 11px; color: var(--ink-2);
+      text-align: right;
+    }
+
+    /* ── Press kit grid ─────────── */
+    .kit-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    .kit-card {
+      background: var(--bg-card); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .2s ease; cursor: pointer;
+    }
+    .kit-card:hover { border-color: var(--accent); }
+    .kit-tag {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    .kit-h4 {
+      font-family: var(--serif); font-size: 22px;
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.01em;
+    }
+    .kit-desc { font-size: 14px; line-height: 1.55; color: var(--ink-2); flex: 1; }
+    .kit-dl {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 8px;
+    }
+
+    /* ── Boilerplate ────────────── */
+    .boiler-box {
+      background: var(--bg-card); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 44px;
+    }
+    .boiler-text {
+      font-family: var(--serif); font-size: 19px; line-height: 1.65;
+      color: var(--ink-2); max-width: 740px;
+    }
+    .boiler-text strong { color: var(--ink); font-weight: 500; }
+    .boiler-text p + p { margin-top: 18px; }
+    .copy-btn {
+      margin-top: 24px;
+      padding: 10px 20px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      border: 1px solid var(--rule); border-radius: 4px;
+      cursor: pointer; transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Fast facts ─────────────── */
+    .facts-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--rule);
+    }
+    .fact-cell {
+      padding: 28px 32px 28px 0;
+      border-bottom: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+    .fact-cell:nth-child(2n) { padding: 28px 0 28px 32px; border-right: none; }
+    .fact-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+    }
+    .fact-value {
+      font-family: var(--serif); font-size: clamp(18px, 1.8vw, 22px);
+      line-height: 1.3;
+    }
+
+    /* ── Photo strip ─────────────── */
+    .photo-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
+    }
+    .photo-strip-cell { position: relative; overflow: hidden; }
+    .photo-strip-cell img {
+      width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block;
+      transition: transform .5s ease;
+    }
+    .photo-strip-cell:hover img { transform: scale(1.04); }
+    .photo-strip-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 12px 8px;
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #fff;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+    }
+
+    /* ── Footer ─────────────────── */
+    .footer { background: #080A09; padding: 72px 0 40px; border-top: 1px solid var(--rule); }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 48px; margin-bottom: 60px;
+    }
+    .footer-logo { margin-bottom: 16px; display: inline-block; background: #fff; border-radius: 4px; padding: 6px 12px; }
+    .footer-logo img { height: 44px; width: auto; display: block; }
+    .footer-tagline {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2); line-height: 1.7;
+    }
+    .footer-col-head {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-locations { display: flex; flex-direction: column; gap: 14px; }
+    .footer-loc-name { font-size: 14px; font-weight: 500; }
+    .footer-loc-addr { font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+    .footer-email-form {
+      display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-top: 12px;
+    }
+    .footer-email-form input {
+      flex: 1; background: transparent; border: none; color: var(--ink);
+      padding: 11px 14px; font: inherit; font-size: 14px; outline: none;
+    }
+    .footer-email-form input::placeholder { color: var(--ink-2); }
+    .footer-email-form button {
+      background: var(--accent); color: #0C0E0D; padding: 0 16px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    }
+    .footer-email-form button:hover { background: var(--accent-dk); }
+    .footer-bottom {
+      padding-top: 24px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-2);
+    }
+    .footer-social { display: flex; gap: 18px; }
+    .footer-social a:hover { color: var(--ink); }
+
+    /* ── Reveal ─────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .wrap, .wrap-mid { padding: 0 20px; }
+      .contact-card { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
+      .cov-item { grid-template-columns: 1fr; gap: 6px; }
+      .cov-date { text-align: left; }
+      .kit-grid { grid-template-columns: 1fr 1fr; }
+      .facts-grid { grid-template-columns: 1fr; }
+      .fact-cell { border-right: none; padding: 24px 0; }
+      .fact-cell:nth-child(2n) { padding: 24px 0; }
+      .photo-strip { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .kit-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html">Stories</a>
+      <a href="programs.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html">For Business</a>
+      <a href="news.html">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="donate.html" class="nav-donate">Donate →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════ AUDIENCE BAR ══════════════════ -->
+<div class="audience-bar">
+  <div class="wrap audience-bar-inner">
+    <span class="audience-bar-label">I'm visiting as</span>
+    <div class="aud-tabs" role="tablist">
+      <button class="aud-tab active" data-aud="donor"      role="tab" aria-selected="true">A donor or supporter</button>
+      <button class="aud-tab"        data-aud="participant" role="tab" aria-selected="false">Looking for work</button>
+      <button class="aud-tab"        data-aud="business"   role="tab" aria-selected="false">A business partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ PAGE HERO ══════════════════ -->
+<div class="page-hero wrap">
+  <span class="eyebrow">News · Press · Media</span>
+  <h1 class="page-hero-h1">
+    For <em>reporters.</em>
+  </h1>
+  <p class="page-hero-lede">
+    Everything you need to cover Baker — recent coverage, a boilerplate,
+    fact sheet, logos, and spokesperson contacts. Our typical response
+    on media requests is under four hours.
+  </p>
+</div>
+
+<!-- ══════════════════ MEDIA CONTACT ══════════════════ -->
+<section>
+  <div class="wrap">
+    <div class="contact-card">
+      <div>
+        <div class="eyebrow" style="color:rgba(12,14,13,0.5); margin-bottom:16px;">Media contact</div>
+        <h2 class="contact-h2">On deadline?<br><em>We answer.</em></h2>
+      </div>
+      <div>
+        <div class="contact-line">
+          Email
+          <strong><a href="mailto:communications@bakerindustries.org">communications@bakerindustries.org</a></strong>
+        </div>
+        <div class="contact-line">
+          Phone
+          <strong><a href="tel:6102969795">610-296-9795</a></strong>
+        </div>
+        <div class="contact-line">
+          Spokesperson
+          <strong>Nic Watson, President</strong>
+        </div>
+        <div class="contact-line">
+          Facility tours
+          <strong>By appointment — Malvern, Philadelphia, or Norristown</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PHOTO STRIP ══════════════════ -->
+<div class="photo-strip">
+  <div class="photo-strip-cell">
+    <img src="assets/img/Baker_Industries_00093.jpg"
+      alt="Baker Industries production floor, Philadelphia.">
+    <div class="photo-strip-caption">I Street · Philadelphia</div>
+  </div>
+  <div class="photo-strip-cell">
+    <img src="assets/img/IMG_0022.jpg"
+      alt="Job readiness class at Baker Industries.">
+    <div class="photo-strip-caption">Job readiness training</div>
+  </div>
+  <div class="photo-strip-cell">
+    <img src="assets/img/Baker_Industries_00745.jpg"
+      alt="Workers on the Baker Industries floor.">
+    <div class="photo-strip-caption">Production floor · Malvern</div>
+  </div>
+  <div class="photo-strip-cell">
+    <img src="assets/img/IMG_0044.jpg"
+      alt="Baker Industries participants in conversation.">
+    <div class="photo-strip-caption">Community</div>
+  </div>
+</div>
+
+<!-- ══════════════════ RECENT COVERAGE ══════════════════ -->
+<section data-reveal>
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0;">
+      <span class="eyebrow">Recent coverage · 2024 — 2026</span>
+    </div>
+    <hr class="section-rule" style="margin-top:20px;">
+    <div class="coverage-list">
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">NBC10</div>
+        <h3 class="cov-hed">A day on the job with 'Positive Pete'</h3>
+        <div class="cov-kind">Feature segment · 4:12</div>
+        <div class="cov-date">Oct 27, 2025</div>
+      </a>
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">CBS3</div>
+        <h3 class="cov-hed">Nonprofit Baker Industries is providing opportunities for the disabled community and more</h3>
+        <div class="cov-kind">News segment</div>
+        <div class="cov-date">Oct 27, 2025</div>
+      </a>
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">Philadelphia Business Journal</div>
+        <h3 class="cov-hed">Baker Industries announces third facility in Norristown</h3>
+        <div class="cov-kind">Business news</div>
+        <div class="cov-date">Nov 14, 2025</div>
+      </a>
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">WHYY</div>
+        <h3 class="cov-hed">Philadelphia's Baker Industries founder is turning 100</h3>
+        <div class="cov-kind">Radio profile · Charlie Baker</div>
+        <div class="cov-date">2025</div>
+      </a>
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">Main Line Today</div>
+        <h3 class="cov-hed">Inside the Malvern workforce that's quietly rewriting second chances</h3>
+        <div class="cov-kind">Long-form feature</div>
+        <div class="cov-date">2025</div>
+      </a>
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">The Philadelphia Citizen</div>
+        <h3 class="cov-hed">Fair Chance Hiring is Good for the City's Future</h3>
+        <div class="cov-kind">Guest commentary · Nic Watson</div>
+        <div class="cov-date">2024</div>
+      </a>
+
+      <a class="cov-item" href="#" target="_blank" rel="noopener">
+        <div class="cov-outlet">Next City</div>
+        <h3 class="cov-hed">The Nonprofit That Runs on Work, Not Grants</h3>
+        <div class="cov-kind">Op-ed · workforce policy</div>
+        <div class="cov-date">2024</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PRESS KIT ══════════════════ -->
+<section class="tight" style="background: var(--bg-2);" data-reveal>
+  <div class="wrap">
+    <div style="margin-bottom:32px;">
+      <span class="eyebrow">Press kit · download &amp; cite</span>
+      <hr class="section-rule" style="margin-top:20px;">
+    </div>
+    <div class="kit-grid">
+
+      <a class="kit-card" href="#">
+        <div class="kit-tag">PDF · 2 pages</div>
+        <h4 class="kit-h4">Fact sheet</h4>
+        <p class="kit-desc">45-year history, four populations served, 2025 numbers, funding model, leadership. Everything you need for a quick reference.</p>
+        <span class="kit-dl">Download ↓</span>
+      </a>
+
+      <a class="kit-card" href="#">
+        <div class="kit-tag">PDF · annual report</div>
+        <h4 class="kit-h4">2025 Annual Report</h4>
+        <p class="kit-desc">President's message, year-in-review, full financials, donor list, and what's ahead for 2026.</p>
+        <span class="kit-dl">Download ↓</span>
+      </a>
+
+      <a class="kit-card" href="#">
+        <div class="kit-tag">ZIP · high-res</div>
+        <h4 class="kit-h4">Logos &amp; wordmark</h4>
+        <p class="kit-desc">Primary lockup, horizontal, mark-only. PNG, SVG, and EPS formats. Light and dark versions included.</p>
+        <span class="kit-dl">Download ↓</span>
+      </a>
+
+      <a class="kit-card" href="#">
+        <div class="kit-tag">ZIP · ~40 images</div>
+        <h4 class="kit-h4">Photo library</h4>
+        <p class="kit-desc">Facility shots, participant portraits (with release), and leadership portraits. Captions and credits included.</p>
+        <span class="kit-dl">Download ↓</span>
+      </a>
+
+      <a class="kit-card" href="#">
+        <div class="kit-tag">PDF · 8 bios</div>
+        <h4 class="kit-h4">Leadership bios</h4>
+        <p class="kit-desc">Nic Watson, Board Chair, program directors, and founding family. Short and long versions available.</p>
+        <span class="kit-dl">Download ↓</span>
+      </a>
+
+      <a class="kit-card" href="#">
+        <div class="kit-tag">DOCX</div>
+        <h4 class="kit-h4">Boilerplate</h4>
+        <p class="kit-desc">Approved 60-word and 200-word organization descriptions for wire stories, event programs, and grant applications.</p>
+        <span class="kit-dl">Download ↓</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ BOILERPLATE ══════════════════ -->
+<section data-reveal>
+  <div class="wrap">
+    <div style="margin-bottom:28px;">
+      <span class="eyebrow">Approved boilerplate · 200 words</span>
+      <hr class="section-rule" style="margin-top:20px;">
+    </div>
+    <div class="boiler-box">
+      <div class="boiler-text" id="boilerplate-text">
+        <p>
+          <strong>Baker Industries</strong> is a Philadelphia-area nonprofit that has provided
+          <strong>paid transitional employment</strong> to adults with barriers to work since 1980.
+          Founded by Charlie and Weezie Baker to give their son Justin — who has a disability — a chance
+          at real work, Baker is distinctive for serving four populations together: adults with disabilities,
+          returning citizens, people in recovery, and adults experiencing housing insecurity — side by side
+          on one integrated production floor.
+        </p>
+        <p style="margin-top:18px;">
+          Participants earn a paycheck from day one on real production lines — kitting, packaging,
+          shrink-wrapping, mailing, and light assembly — while receiving wraparound coaching, job readiness
+          workshops, and pathways to permanent employment. Baker operates facilities in Malvern and
+          Philadelphia, with a third facility opening in Norristown in 2026. In 2025, Baker served more
+          than 200 participants and placed 60 graduates into competitive, living-wage employment —
+          while running on <strong>zero government funding</strong> in 45+ years of operation. Roughly half of
+          Baker's revenue comes from earned production contracts; the rest from local philanthropy.
+        </p>
+      </div>
+      <button class="copy-btn" onclick="
+        const text = document.getElementById('boilerplate-text').innerText;
+        navigator.clipboard?.writeText(text).then(() => { this.textContent = '✓ Copied to clipboard'; setTimeout(() => this.textContent = 'Copy to clipboard', 2500); });
+      ">Copy to clipboard</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FAST FACTS ══════════════════ -->
+<section style="background: var(--bg-2);" data-reveal>
+  <div class="wrap">
+    <div style="margin-bottom:28px;">
+      <span class="eyebrow">Fast facts · for reporters on deadline</span>
+      <hr class="section-rule" style="margin-top:20px;">
+    </div>
+    <div class="facts-grid">
+      <div class="fact-cell">
+        <div class="fact-label">Founded</div>
+        <div class="fact-value">1980, by Charlie and Weezie Baker</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Tax status</div>
+        <div class="fact-value">501(c)(3) nonprofit · EIN on request</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Facilities</div>
+        <div class="fact-value">Malvern · Philadelphia · Norristown (opening 2026)</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Populations served</div>
+        <div class="fact-value">Adults with disabilities · returning citizens · people in recovery · adults experiencing housing insecurity</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">2024 outcomes</div>
+        <div class="fact-value">60 placed in competitive employment · 192 total participants served</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">2025 goal</div>
+        <div class="fact-value">60+ placements · 200+ participants · on track to exceed both</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Government funding</div>
+        <div class="fact-value">Zero · never · a deliberate design choice in 45+ years</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Funding model</div>
+        <div class="fact-value">~50% earned revenue from production contracts · ~50% local philanthropy · $1.2M raised in 2024</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Program efficiency</div>
+        <div class="fact-value">84¢ of every operating dollar goes directly to programs</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-label">Business clients</div>
+        <div class="fact-value">80+ regional partners including Tastykake, GSK, Crazy Aaron's, Philadelphia Museum of Art</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="assets/img/logo.png" alt="Baker Industries" />
+        </div>
+        <p class="footer-tagline">
+          501(c)(3) workforce development nonprofit.<br>
+          Demonstrating the power of work since 1980.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-head">Locations</div>
+        <div class="footer-locations">
+          <div><div class="footer-loc-name">Philadelphia</div><div class="footer-loc-addr">3630 I Street</div></div>
+          <div><div class="footer-loc-name">Malvern</div><div class="footer-loc-addr">184 Pennsylvania Ave</div></div>
+          <div><div class="footer-loc-name">Norristown</div><div class="footer-loc-addr">9 S Forrest Ave</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="donate.html">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="press.html">Press room</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:6px; line-height:1.6;">
+          <em>Lives Changed</em> — our monthly story series. No spam.
+        </p>
+        <form class="footer-email-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';">
+          <input type="email" placeholder="your@email.com" required />
+          <button type="submit">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3) · bakerindustries.org</span>
+      <div class="footer-social">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Audience switcher
+  document.querySelectorAll('.aud-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.documentElement.setAttribute('data-audience', tab.dataset.aud);
+      document.querySelectorAll('.aud-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

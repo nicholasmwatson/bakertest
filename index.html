@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="donor">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baker Industries — Real work for real pay.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:         #0C0E0D;
+      --bg-2:       #161918;
+      --bg-card:    #1E2220;
+      --ink:        #EFE9DC;
+      --ink-2:      #A39B8E;
+      --rule:       rgba(239,233,220,0.1);
+      --accent:     #ED8054;
+      --accent-dk:  #C4562B;
+      --brand-blue: #688DA6;
+      --brand-sage: #B3BAA7;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', -apple-system, sans-serif;
+      --mono:       'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    /* ── Utilities ──────────────────────────────────────── */
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+
+    .eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2);
+    }
+    .eyebrow-accent { color: var(--accent); }
+
+    section { padding: 96px 0; }
+    section.tight { padding: 56px 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap;
+    }
+    .btn-accent  { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); transform: translateY(-1px); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.3); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btn-outline-accent { border: 1.5px solid var(--accent); color: var(--accent); }
+    .btn-outline-accent:hover { background: var(--accent); color: #0C0E0D; }
+    .btn-dark { background: #0C0E0D; color: var(--accent); }
+    .btn-dark:hover { background: #1E2220; }
+
+    hr.rule { border: none; border-top: 1px solid var(--rule); }
+
+    /* ── Nav ────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      background: rgba(12,14,13,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 32px;
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      background: #fff; border-radius: 4px; padding: 4px 10px;
+    }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links {
+      display: flex; gap: 28px;
+      font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate {
+      background: var(--accent); color: #0C0E0D;
+      padding: 9px 18px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; display: inline-block;
+    }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Audience Bar ────────────────────────────────────── */
+    .audience-bar {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 55;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--rule);
+    }
+    .audience-bar-inner {
+      display: flex; align-items: center; height: 48px; gap: 0;
+    }
+    .audience-bar-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px 0 0; white-space: nowrap; flex-shrink: 0;
+    }
+    .aud-tabs { display: flex; gap: 0; }
+    .aud-tab {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2);
+      padding: 0 20px; height: 48px; display: flex; align-items: center;
+      border-right: 1px solid var(--rule);
+      cursor: pointer; transition: color .15s, background .15s;
+      position: relative;
+    }
+    .aud-tab:first-child { border-left: 1px solid var(--rule); }
+    .aud-tab:hover { color: var(--ink); }
+    .aud-tab.active { color: var(--brand-blue); }
+    .aud-tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--brand-blue);
+    }
+
+    /* ── Audience-gated content ──────────────────────────── */
+    .aud-only { display: none; }
+    [data-audience="donor"]       .aud-donor      { display: block; }
+    [data-audience="participant"] .aud-participant { display: block; }
+    [data-audience="business"]    .aud-business    { display: block; }
+    [data-audience="donor"]       .aud-donor-flex      { display: flex; }
+    [data-audience="participant"] .aud-participant-flex { display: flex; }
+    [data-audience="business"]    .aud-business-flex    { display: flex; }
+
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      position: relative; height: 100vh; min-height: 700px;
+      display: flex; align-items: flex-end;
+      padding-bottom: 72px;
+      padding-top: 112px; /* nav + audience bar */
+      overflow: hidden;
+    }
+    .hero-photo { position: absolute; inset: 0; }
+    .hero-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center 25%;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        105deg,
+        rgba(12,14,13,0.90) 0%,
+        rgba(12,14,13,0.72) 50%,
+        rgba(12,14,13,0.18) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: flex-end;
+    }
+    .hero-label { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .hero-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--brand-blue); flex-shrink: 0;
+      animation: blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(.7); }
+    }
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(40px, 5.5vw, 76px);
+      font-weight: 700; line-height: 1.02; letter-spacing: -0.025em;
+      margin-bottom: 24px;
+    }
+    .hero-h1 em { font-style: italic; color: var(--accent); }
+    .hero-h1 .dim { color: rgba(239,233,220,0.5); font-size: 0.7em; }
+    .hero-sub {
+      font-size: 17px; line-height: 1.6; color: rgba(239,233,220,0.72);
+      max-width: 44ch; margin-bottom: 32px;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule); border-radius: 6px; overflow: hidden;
+      backdrop-filter: blur(12px); align-self: flex-end;
+    }
+    .hero-stat {
+      background: rgba(12,14,13,0.74);
+      padding: 24px 20px;
+    }
+    .hero-stat-n {
+      font-family: var(--serif); font-size: clamp(30px, 3vw, 46px);
+      font-weight: 700; line-height: 1; letter-spacing: -0.02em;
+      color: var(--accent); margin-bottom: 6px;
+    }
+    .hero-stat-n sup { font-size: 0.55em; vertical-align: super; }
+    .hero-stat-l {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em;
+      text-transform: uppercase; color: rgba(239,233,220,0.55); line-height: 1.45;
+    }
+
+    /* ── Ticker ─────────────────────────────────────────── */
+    .ticker {
+      background: var(--accent); color: #0C0E0D;
+      padding: 13px 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex; animation: scroll-left 32s linear infinite;
+    }
+    .ticker-item {
+      font-family: var(--mono); font-size: 11.5px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; padding: 0 44px;
+    }
+    @keyframes scroll-left {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Photo Grid ─────────────────────────────────────── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px; min-height: 640px;
+    }
+    .photo-cell { position: relative; overflow: hidden; }
+    .photo-cell img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .55s ease;
+    }
+    .photo-cell:hover img { transform: scale(1.04); }
+    .photo-cell.tall { grid-row: span 2; }
+    .photo-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 14px 16px 12px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #fff;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+    }
+
+    /* ── Section heads ──────────────────────────────────── */
+    .section-head { margin-bottom: 48px; }
+    .section-head .eyebrow { margin-bottom: 14px; display: block; }
+    .section-h2 {
+      font-family: var(--serif);
+      font-size: clamp(30px, 3.5vw, 50px);
+      font-weight: 700; line-height: 1.06; letter-spacing: -0.02em;
+    }
+    .section-h2 em { font-style: italic; color: var(--accent); }
+
+    /* ── Mission ────────────────────────────────────────── */
+    .mission { background: var(--bg-2); }
+    .mission-statement {
+      font-family: var(--serif);
+      font-size: clamp(24px, 3vw, 44px);
+      font-style: italic; font-weight: 400;
+      line-height: 1.22; letter-spacing: -0.015em;
+      text-align: center; max-width: 800px; margin: 0 auto 60px;
+    }
+    .mission-statement strong { font-style: normal; font-weight: 700; color: var(--accent); }
+    .mission-verbs {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 1px; background: var(--rule);
+      border: 1px solid var(--rule); border-radius: 6px; overflow: hidden;
+    }
+    .mission-verb { background: var(--bg-card); padding: 32px 24px; }
+    .verb-num {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .verb-word {
+      font-family: var(--serif); font-size: 26px; font-weight: 700;
+      line-height: 1; margin-bottom: 10px;
+    }
+    .verb-desc { font-size: 13px; line-height: 1.6; color: var(--ink-2); }
+
+    /* ── Featured story ─────────────────────────────────── */
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .story-h2 {
+      font-family: var(--serif); font-size: clamp(28px, 3vw, 46px);
+      font-weight: 700; line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 24px;
+    }
+    .story-h2 em { font-style: italic; color: var(--accent); }
+    .story-body { font-size: 17px; line-height: 1.7; color: rgba(239,233,220,0.78); margin-bottom: 28px; }
+    .story-body p + p { margin-top: 16px; }
+    .story-mini-stats {
+      display: flex; gap: 28px; flex-wrap: wrap;
+      padding: 22px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      margin-bottom: 28px;
+    }
+    .mini-stat-n {
+      font-family: var(--serif); font-size: 26px; font-weight: 700;
+      color: var(--accent); line-height: 1;
+    }
+    .mini-stat-l {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2); margin-top: 3px;
+    }
+    .story-photo { position: relative; border-radius: 4px; overflow: hidden; }
+    .story-photo img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .story-photo-tag {
+      position: absolute; top: 18px; left: 18px;
+      background: var(--accent); color: #0C0E0D;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px;
+    }
+
+    /* ── Pull quote ─────────────────────────────────────── */
+    .pullquote-wrap { background: var(--bg-2); padding: 80px 0; }
+    .pullquote-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+    .pq-mark {
+      font-family: var(--serif); font-size: 80px; line-height: .4;
+      color: var(--accent); opacity: .35; display: block; margin-bottom: 16px;
+    }
+    .pq-text {
+      font-family: var(--serif); font-size: clamp(20px, 2.6vw, 36px);
+      font-style: italic; line-height: 1.28; letter-spacing: -0.01em; margin-bottom: 24px;
+    }
+    .pq-cite {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2);
+    }
+
+    /* ── Voices ─────────────────────────────────────────── */
+    .voices { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+    .voice-card { background: var(--bg-card); padding: 40px 36px; }
+    .voice-q {
+      font-family: var(--serif); font-size: clamp(17px, 1.8vw, 24px);
+      font-style: italic; line-height: 1.42; margin-bottom: 22px;
+    }
+    .voice-cite {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+    }
+
+    /* ── Audience-specific panels ────────────────────────── */
+
+    /* DONOR */
+    .donor-panel { background: var(--bg-2); }
+    .model-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+      background: var(--rule); border: 1px solid var(--rule);
+      border-radius: 6px; overflow: hidden; margin-bottom: 48px;
+    }
+    .model-half { background: var(--bg-card); padding: 40px 36px; }
+    .model-pct {
+      font-family: var(--serif); font-size: 80px; font-weight: 700;
+      line-height: 1; color: var(--accent); letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+    .model-label {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 14px;
+    }
+    .model-desc { font-size: 15px; line-height: 1.65; color: var(--ink-2); }
+    .donor-proof {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--rule);
+      border: 1px solid var(--rule); border-radius: 6px; overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .proof-cell { background: var(--bg-card); padding: 32px 28px; }
+    .proof-n {
+      font-family: var(--serif); font-size: 40px; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--accent); margin-bottom: 6px;
+    }
+    .proof-l {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 10px;
+    }
+    .proof-note { font-size: 13px; line-height: 1.6; color: var(--ink-2); }
+    .recidivism-bar {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+      background: var(--rule); border: 1px solid var(--rule);
+      border-radius: 6px; overflow: hidden; margin-bottom: 48px;
+    }
+    .recid-cell { background: var(--bg-card); padding: 36px 32px; }
+    .recid-pct {
+      font-family: var(--serif); font-size: 64px; font-weight: 700;
+      line-height: 1; letter-spacing: -0.03em; margin-bottom: 8px;
+    }
+    .recid-pct.bad  { color: #C0422B; }
+    .recid-pct.good { color: var(--accent); }
+    .recid-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-2); margin-bottom: 10px;
+    }
+    .recid-note { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+
+    /* PARTICIPANT */
+    .participant-panel { background: var(--bg-2); }
+    .pop-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--rule);
+      border: 1px solid var(--rule); border-radius: 6px; overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .pop-cell { background: var(--bg-card); padding: 32px 24px; }
+    .pop-icon {
+      font-size: 28px; margin-bottom: 14px; display: block;
+    }
+    .pop-head {
+      font-family: var(--serif); font-size: 18px; font-weight: 700;
+      margin-bottom: 10px; line-height: 1.2;
+    }
+    .pop-desc { font-size: 13.5px; line-height: 1.6; color: var(--ink-2); }
+    .expect-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--rule);
+      border: 1px solid var(--rule); border-radius: 6px; overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .expect-cell { background: var(--bg-card); padding: 32px 24px; }
+    .expect-step {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .expect-head {
+      font-family: var(--serif); font-size: 20px; font-weight: 700;
+      margin-bottom: 10px; line-height: 1.2;
+    }
+    .expect-desc { font-size: 14px; line-height: 1.65; color: var(--ink-2); }
+
+    /* BUSINESS */
+    .business-panel { }
+    .biz-services {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--rule);
+      border: 1px solid var(--rule); border-radius: 6px; overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .biz-service { background: var(--bg-card); padding: 36px 28px; }
+    .biz-service-num {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .biz-service-h {
+      font-family: var(--serif); font-size: 20px; font-weight: 700;
+      margin-bottom: 12px; line-height: 1.2;
+    }
+    .biz-service-list {
+      font-size: 14px; line-height: 1.8; color: var(--ink-2);
+    }
+    .biz-why-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--rule); border: 1px solid var(--rule);
+      border-radius: 6px; overflow: hidden; margin-bottom: 48px;
+    }
+    .biz-why-cell { background: var(--bg-card); padding: 36px 32px; }
+    .biz-why-head {
+      font-family: var(--serif); font-size: 22px; font-weight: 700;
+      margin-bottom: 14px; line-height: 1.2;
+    }
+    .biz-why-desc { font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+
+    /* ── Business strip (universal) ──────────────────────── */
+    .for-biz { background: var(--bg-2); }
+    .biz-header {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: end; margin-bottom: 48px;
+    }
+
+    /* ── Clients ─────────────────────────────────────────── */
+    .clients-row {
+      display: flex; flex-wrap: wrap;
+      border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+    }
+    .client-tile {
+      flex: 1 1 160px; padding: 24px 20px;
+      border-right: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-2); display: flex; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .client-tile:last-child { border-right: none; }
+
+    /* ── Press ───────────────────────────────────────────── */
+    .press-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    .press-card {
+      background: var(--bg-card); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 26px 22px;
+      transition: border-color .2s ease;
+    }
+    .press-card:hover { border-color: var(--accent); }
+    .press-outlet {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+    .press-hed {
+      font-family: var(--serif); font-size: 17px; line-height: 1.35; margin-bottom: 10px;
+    }
+    .press-meta {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-2);
+    }
+
+    /* ── What's new ─────────────────────────────────────── */
+    .news-feed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .news-card {
+      background: var(--bg-card); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 28px 24px;
+    }
+    .news-type {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+    .news-hed {
+      font-family: var(--serif); font-size: 18px; font-weight: 700;
+      line-height: 1.3; margin-bottom: 10px;
+    }
+    .news-note { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+    /* ── Donate CTA ─────────────────────────────────────── */
+    .donate-cta { background: var(--accent); color: #0C0E0D; padding: 96px 0; }
+    .donate-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .donate-h2 {
+      font-family: var(--serif); font-size: clamp(34px, 4vw, 58px);
+      font-weight: 700; line-height: 1.02; letter-spacing: -0.025em;
+    }
+    .donate-h2 em { font-style: italic; }
+    .donate-sub { font-size: 17px; line-height: 1.65; margin-bottom: 28px; opacity: .82; }
+    .donate-amounts { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .donate-btn {
+      background: #0C0E0D; color: var(--accent); padding: 14px 24px; border-radius: 4px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background .2s ease;
+    }
+    .donate-btn:hover { background: #1E2220; }
+    .donate-btn.selected { outline: 3px solid #0C0E0D; }
+    .donate-note {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; opacity: .6;
+    }
+
+    /* ── Get Involved CTA (participant) ─────────────────── */
+    .apply-cta { background: var(--bg-2); padding: 80px 0; }
+    .apply-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .apply-h2 {
+      font-family: var(--serif); font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 700; line-height: 1.06; letter-spacing: -0.02em;
+    }
+    .apply-h2 em { font-style: italic; color: var(--accent); }
+
+    /* ── Quote RFQ CTA (business) ───────────────────────── */
+    .quote-cta { background: var(--bg-2); padding: 80px 0; }
+    .quote-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+    .quote-h2 {
+      font-family: var(--serif); font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 700; line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 18px;
+    }
+    .quote-h2 em { font-style: italic; color: var(--accent); }
+
+    /* ── Photo interlude ────────────────────────────────── */
+    .photo-pair {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+    }
+    .photo-pair-cell { position: relative; overflow: hidden; }
+    .photo-pair-cell img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block;
+      transition: transform .55s ease;
+    }
+    .photo-pair-cell:hover img { transform: scale(1.04); }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .footer { background: #080A09; padding: 72px 0 40px; border-top: 1px solid var(--rule); }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 48px; margin-bottom: 60px;
+    }
+    .footer-logo { margin-bottom: 16px; display: inline-block; background: #fff; border-radius: 4px; padding: 6px 12px; }
+    .footer-logo img { height: 44px; width: auto; display: block; }
+    .footer-tagline {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-2); line-height: 1.7;
+    }
+    .footer-col-head {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-locations { display: flex; flex-direction: column; gap: 14px; }
+    .footer-loc-name { font-size: 14px; font-weight: 500; }
+    .footer-loc-addr { font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+    .footer-email-form {
+      display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+      margin-top: 12px;
+    }
+    .footer-email-form input {
+      flex: 1; background: transparent; border: none; color: var(--ink);
+      padding: 11px 14px; font: inherit; font-size: 14px; outline: none;
+    }
+    .footer-email-form input::placeholder { color: var(--ink-2); }
+    .footer-email-form button {
+      background: var(--accent); color: #0C0E0D;
+      padding: 0 16px; font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    }
+    .footer-email-form button:hover { background: var(--accent-dk); }
+    .footer-bottom {
+      padding-top: 24px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-2);
+    }
+    .footer-social { display: flex; gap: 18px; }
+    .footer-social a:hover { color: var(--ink); }
+
+    /* ── Reveal ─────────────────────────────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .wrap, .wrap-mid { padding: 0 20px; }
+      .hero-content, .story-grid, .donate-inner, .apply-inner, .biz-header { grid-template-columns: 1fr; gap: 40px; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .mission-verbs { grid-template-columns: 1fr 1fr; }
+      .pop-grid, .press-grid, .news-feed { grid-template-columns: 1fr 1fr; }
+      .model-grid, .biz-why-grid { grid-template-columns: 1fr; }
+      .donor-proof, .expect-grid, .biz-services { grid-template-columns: 1fr; }
+      .voices { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-cell.tall { grid-row: span 1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .recidivism-bar { grid-template-columns: 1fr; }
+      .story-photo { order: -1; }
+    }
+    @media (max-width: 600px) {
+      .pop-grid { grid-template-columns: 1fr; }
+      .press-grid, .news-feed { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .photo-pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html">Stories</a>
+      <a href="programs.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html">For Business</a>
+      <a href="news.html">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#donate" class="nav-donate">Donate →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════ AUDIENCE BAR ═══════════════════════ -->
+<div class="audience-bar">
+  <div class="wrap audience-bar-inner">
+    <span class="audience-bar-label">I'm visiting as</span>
+    <div class="aud-tabs" role="tablist" aria-label="Choose your perspective">
+      <button class="aud-tab active" data-aud="donor"       role="tab" aria-selected="true">A donor or supporter</button>
+      <button class="aud-tab"        data-aud="participant"  role="tab" aria-selected="false">Looking for work</button>
+      <button class="aud-tab"        data-aud="business"    role="tab" aria-selected="false">A business partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ HERO ══════════════════════════ -->
+<section class="hero">
+  <div class="hero-photo">
+    <img
+      src="assets/img/Baker_Industries_00255.jpg"
+      alt="A Baker Industries participant at work on the production floor."
+      loading="eager"
+    >
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="hero-content wrap">
+    <div class="hero-left">
+      <div class="hero-label">
+        <span class="hero-dot"></span>
+        <span class="eyebrow">Philadelphia · Malvern · Norristown · Est. 1980</span>
+      </div>
+
+      <!-- DONOR hero text -->
+      <div class="aud-only aud-donor">
+        <h1 class="hero-h1">
+          Work gets done.<br>
+          <em>People get better.</em><br>
+          <span class="dim">Everybody wins.</span>
+        </h1>
+        <p class="hero-sub">
+          Baker Industries is a Philadelphia-area nonprofit funded equally by real production contracts and local philanthropy — and zero federal dollars. Your support is the other half of a model that has worked for 45 years.
+        </p>
+        <div class="hero-ctas">
+          <a href="#donate" class="btn btn-accent">Become a monthly donor →</a>
+          <a href="#donor-panel" class="btn btn-outline">See our model</a>
+        </div>
+      </div>
+
+      <!-- PARTICIPANT hero text -->
+      <div class="aud-only aud-participant">
+        <h1 class="hero-h1">
+          Real work.<br>
+          <em>Real pay.</em><br>
+          <span class="dim">From day one.</span>
+        </h1>
+        <p class="hero-sub">
+          At Baker Industries, you start working on day one — and you get a real paycheck for it. Whether you're returning from incarceration, in recovery, living with a disability, or finding your footing again, there's a place for you here.
+        </p>
+        <div class="hero-ctas">
+          <a href="#participant-panel" class="btn btn-accent">Learn what to expect →</a>
+          <a href="#" class="btn btn-outline">Talk to someone today</a>
+        </div>
+      </div>
+
+      <!-- BUSINESS hero text -->
+      <div class="aud-only aud-business">
+        <h1 class="hero-h1">
+          Reliable production.<br>
+          <em>Built-in impact.</em><br>
+          <span class="dim">No trade-off required.</span>
+        </h1>
+        <p class="hero-sub">
+          Baker Industries serves 80+ regional clients with contract manufacturing, packaging, and fulfillment. Every order placed at Baker also directly supports adults building stable careers. Quality and mission, in the same invoice.
+        </p>
+        <div class="hero-ctas">
+          <a href="#business-panel" class="btn btn-accent">See our capabilities →</a>
+          <a href="#quote" class="btn btn-outline">Request a quote</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats panel — adapts slightly by audience -->
+    <div class="hero-stats">
+      <!-- Donor stats -->
+      <div class="hero-stat aud-only aud-donor" style="display:block;">
+        <div class="hero-stat-n">12,000<sup>+</sup></div>
+        <div class="hero-stat-l">Adults served<br>since 1980</div>
+      </div>
+      <div class="hero-stat aud-only aud-donor" style="display:block;">
+        <div class="hero-stat-n">$1.2M</div>
+        <div class="hero-stat-l">Raised from individuals,<br>foundations &amp; events in 2024</div>
+      </div>
+      <div class="hero-stat aud-only aud-donor" style="display:block;">
+        <div class="hero-stat-n">50/50</div>
+        <div class="hero-stat-l">Earned revenue &amp;<br>local philanthropy</div>
+      </div>
+      <div class="hero-stat aud-only aud-donor" style="display:block;">
+        <div class="hero-stat-n">0%</div>
+        <div class="hero-stat-l">Federal funding —<br>by design</div>
+      </div>
+
+      <!-- Participant stats -->
+      <div class="hero-stat aud-only aud-participant">
+        <div class="hero-stat-n">Day 1</div>
+        <div class="hero-stat-l">You start working<br>and getting paid</div>
+      </div>
+      <div class="hero-stat aud-only aud-participant">
+        <div class="hero-stat-n">200<sup>+</sup></div>
+        <div class="hero-stat-l">Participants served<br>each year</div>
+      </div>
+      <div class="hero-stat aud-only aud-participant">
+        <div class="hero-stat-n">4</div>
+        <div class="hero-stat-l">Populations served<br>together</div>
+      </div>
+      <div class="hero-stat aud-only aud-participant">
+        <div class="hero-stat-n">60<sup>+</sup></div>
+        <div class="hero-stat-l">Placed in living-wage<br>jobs in 2024</div>
+      </div>
+
+      <!-- Business stats -->
+      <div class="hero-stat aud-only aud-business">
+        <div class="hero-stat-n">80<sup>+</sup></div>
+        <div class="hero-stat-l">Regional business<br>clients</div>
+      </div>
+      <div class="hero-stat aud-only aud-business">
+        <div class="hero-stat-n">3</div>
+        <div class="hero-stat-l">Production facilities<br>in the region</div>
+      </div>
+      <div class="hero-stat aud-only aud-business">
+        <div class="hero-stat-n">45<sup>+</sup></div>
+        <div class="hero-stat-l">Years of operational<br>experience</div>
+      </div>
+      <div class="hero-stat aud-only aud-business">
+        <div class="hero-stat-n">200<sup>+</sup></div>
+        <div class="hero-stat-l">Trained workers<br>annually</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TICKER ═══════════════════════════ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Real work for real pay</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">12,000+ adults served since 1980</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Zero federal funding — ever</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">80+ regional business partners</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Philadelphia · Malvern · Norristown</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Work itself is the intervention</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Founded 1980 by Charlie and Weezie Baker</span>
+    <span class="ticker-item">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Real work for real pay</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">12,000+ adults served since 1980</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Zero federal funding — ever</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">80+ regional business partners</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Philadelphia · Malvern · Norristown</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Work itself is the intervention</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">Founded 1980 by Charlie and Weezie Baker</span>
+    <span class="ticker-item">·</span>
+  </div>
+</div>
+
+<!-- ════════════════════════ PHOTO GRID ═══════════════════════ -->
+<div style="padding: 3px 0 0;">
+  <div class="photo-grid">
+    <div class="photo-cell tall">
+      <img
+        src="assets/img/Baker_Industries_00093.jpg"
+        alt="Workers on the production floor at Baker Industries, Philadelphia."
+      >
+      <div class="photo-caption">I Street production floor · Philadelphia</div>
+    </div>
+    <div class="photo-cell">
+      <img
+        src="assets/img/IMG_0022.jpg"
+        alt="A job readiness class at Baker Industries."
+        style="aspect-ratio:4/3;"
+      >
+      <div class="photo-caption">Job readiness training</div>
+    </div>
+    <div class="photo-cell">
+      <img
+        src="assets/img/IMG_0044.jpg"
+        alt="Two participants sharing a laugh during a session at Baker Industries."
+        style="aspect-ratio:4/3;"
+      >
+      <div class="photo-caption">Building community</div>
+    </div>
+    <div class="photo-cell">
+      <img
+        src="assets/img/IMG_0066.jpg"
+        alt="A participant operating a pallet jack in the Baker Industries warehouse."
+        style="aspect-ratio:4/3;"
+      >
+      <div class="photo-caption">Warehouse operations · Malvern</div>
+    </div>
+    <div class="photo-cell">
+      <img
+        src="assets/img/Baker_Industries_00618.jpg"
+        alt="The Baker Industries fulfillment team working together."
+        style="aspect-ratio:4/3;"
+      >
+      <div class="photo-caption">Fulfillment team at work</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ MISSION ══════════════════════════ -->
+<section class="mission" data-reveal>
+  <div class="wrap">
+    <div class="eyebrow" style="text-align:center; margin-bottom:36px;">Our mission, in five verbs</div>
+    <p class="mission-statement">
+      "To <strong>employ</strong> those who have the most difficulty, <strong>teach</strong> through real work,
+      <strong>provide</strong> job readiness training, <strong>act</strong> as the critical transition step,
+      and <strong>help</strong> every person reach their highest level of achievement."
+    </p>
+    <div class="mission-verbs">
+      <div class="mission-verb">
+        <div class="verb-num">01</div>
+        <div class="verb-word">Employ</div>
+        <p class="verb-desc">Adults facing barriers to employment — from day one, with real pay.</p>
+      </div>
+      <div class="mission-verb">
+        <div class="verb-num">02</div>
+        <div class="verb-word">Teach</div>
+        <p class="verb-desc">The work ethic through real work experience on a production floor.</p>
+      </div>
+      <div class="mission-verb">
+        <div class="verb-num">03</div>
+        <div class="verb-word">Provide</div>
+        <p class="verb-desc">Job readiness training in a trauma-informed environment.</p>
+      </div>
+      <div class="mission-verb">
+        <div class="verb-num">04</div>
+        <div class="verb-word">Act</div>
+        <p class="verb-desc">As the critical transition step toward competitive, lasting employment.</p>
+      </div>
+      <div class="mission-verb">
+        <div class="verb-num">05</div>
+        <div class="verb-word">Help</div>
+        <p class="verb-desc">Every person — whether they move on or stay — reach their highest level of achievement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FEATURED STORY ════════════════════ -->
+<section data-reveal>
+  <div class="wrap">
+    <div class="story-grid">
+      <div>
+        <span class="eyebrow" style="margin-bottom:18px; display:block;">Featured story · Nate</span>
+        <h2 class="story-h2">
+          Twenty-nine years inside.<br>
+          Six months at Baker.<br>
+          <em>One trade, for life.</em>
+        </h2>
+        <div class="story-body">
+          <p>Nate came home after 29 years in prison. He didn't know how to use a debit card. A counselor at the halfway house told him about a place on I Street. He walked in, and started work that week.</p>
+          <p>Through Baker's Job Readiness Program he learned packaging, assembly, and warehouse work. He ran the Tastykake line. Six months later — half the typical program length — Baker placed him with a high-end Philadelphia manufacturer. Today, pressing is his primary role. Baker didn't rescue Nate. It put him to work.</p>
+        </div>
+        <div class="story-mini-stats">
+          <div>
+            <div class="mini-stat-n">29 yrs</div>
+            <div class="mini-stat-l">Incarcerated</div>
+          </div>
+          <div>
+            <div class="mini-stat-n">6 mo.</div>
+            <div class="mini-stat-l">At Baker</div>
+          </div>
+          <div>
+            <div class="mini-stat-n">½</div>
+            <div class="mini-stat-l">Typical program length</div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-outline-accent">Read Nate's full story →</a>
+      </div>
+      <div class="story-photo">
+        <img
+          src="assets/img/Baker_Industries_00255.jpg"
+          alt="A Baker Industries participant, smiling, at work on the production floor."
+        >
+        <div class="story-photo-tag">On the floor · Philadelphia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ PULL QUOTE ═════════════════════════ -->
+<div class="pullquote-wrap" data-reveal>
+  <div class="pullquote-inner">
+    <span class="pq-mark" aria-hidden="true">"</span>
+    <p class="pq-text">My favorite part about Baker is being empowered to hope and dream again — and empowering others to hope and dream.</p>
+    <cite class="pq-cite">— Nate · Baker graduate · placed 2024</cite>
+  </div>
+</div>
+
+<!-- ════════════════════ MORE VOICES ══════════════════════════ -->
+<div class="voices">
+  <div class="voice-card">
+    <p class="voice-q">"When I left Baker, I didn't realize how much I would miss them. They don't let us stay in our mess. Ms. Lisette says, 'out of our mess, there is always a message.'"</p>
+    <cite class="voice-cite">— Tracey · Baker graduate</cite>
+  </div>
+  <div class="voice-card" style="background: var(--bg);">
+    <p class="voice-q">"What does not transmit light creates darkness. So sometimes you have to create your own light."</p>
+    <cite class="voice-cite">— Pete · "Positive Pete" · 18 years at Baker</cite>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ AUDIENCE: DONOR ═══════════════════════ -->
+<section class="donor-panel aud-only aud-donor" id="donor-panel" data-reveal>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">For donors &amp; supporters</span>
+      <h2 class="section-h2" style="margin-top:14px;">The model that makes<br><em>this possible.</em></h2>
+    </div>
+
+    <!-- 50/50 model -->
+    <div class="model-grid">
+      <div class="model-half">
+        <div class="model-pct">~50%</div>
+        <div class="model-label">Earned revenue</div>
+        <p class="model-desc">Real production contracts from real businesses. Tastykake, GSK, Crazy Aaron's, and 75+ more regional partners pay us for contract manufacturing, packaging, and fulfillment. This revenue creates the accountability and dignity that charity alone can't.</p>
+      </div>
+      <div class="model-half">
+        <div class="model-pct">~50%</div>
+        <div class="model-label">Local philanthropy</div>
+        <p class="model-desc">Foundations, individuals, and events — $1.2M raised in 2024. This side funds what earned revenue can't: case management, coaching, and the patience to let people progress at their own pace. Local funders, close to the problem, free of federal compliance overhead.</p>
+      </div>
+    </div>
+
+    <!-- Zero federal funding provocation -->
+    <div style="background: var(--bg-card); border: 1px solid var(--rule); border-radius:6px; padding:36px; margin-bottom:48px;">
+      <div class="eyebrow eyebrow-accent" style="margin-bottom:14px;">The case for local, independent funding</div>
+      <p style="font-family:var(--serif); font-size:clamp(19px,2vw,27px); line-height:1.35; font-style:italic; max-width:700px;">
+        "In 45+ years, Baker has never accepted a dollar of federal funding. That's a design choice, not a fallback — and it's why the model still works."
+      </p>
+      <p style="font-size:15px; color:var(--ink-2); line-height:1.7; max-width:640px; margin-top:18px;">
+        84% of nonprofits with government funding expect cuts. 40% of human-services grantees report government grants as their primary revenue stream. Baker was never in that position. Your philanthropic dollar isn't backfill — it's the whole architecture.
+      </p>
+    </div>
+
+    <!-- Proof points -->
+    <div class="donor-proof">
+      <div class="proof-cell">
+        <div class="proof-n">60</div>
+        <div class="proof-l">Placed in 2024</div>
+        <p class="proof-note">Adults moved into competitive, living-wage employment last year. 2025 goal: 60+, and on track to exceed it.</p>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-n">192</div>
+        <div class="proof-l">Participants served in 2024</div>
+        <p class="proof-note">Across Malvern, Philadelphia, and the new Norristown site. 2025 goal: 200+ annually across all three facilities.</p>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-n">45+</div>
+        <div class="proof-l">Years of operation</div>
+        <p class="proof-note">Founded in 1980 by Charlie and Weezie Baker. More than 12,000 adults have built skills and earned wages through Baker since the beginning.</p>
+      </div>
+    </div>
+
+    <!-- Recidivism stat -->
+    <div class="eyebrow" style="margin-bottom:20px;">The policy case</div>
+    <div class="recidivism-bar">
+      <div class="recid-cell">
+        <div class="recid-pct bad">52%</div>
+        <div class="recid-label">National recidivism rate</div>
+        <p class="recid-note">The rate at which returning citizens are re-incarcerated within three years. It's not a character problem — it's a structural one. Reentry without employment isn't reentry.</p>
+      </div>
+      <div class="recid-cell">
+        <div class="recid-pct good">16%</div>
+        <div class="recid-label">With stable post-release employment</div>
+        <p class="recid-note">The recidivism rate drops to roughly 16% for individuals who secure stable employment after release. Work itself is the intervention. Not counseling alone. Not housing alone. Work.</p>
+      </div>
+    </div>
+
+    <p style="font-size:14px; color:var(--ink-2); margin-top:12px; font-family:var(--mono); letter-spacing:0.06em;">Workforce development as infrastructure, not charity.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════ AUDIENCE: PARTICIPANT ══════════════════ -->
+<section class="participant-panel aud-only aud-participant" id="participant-panel" data-reveal>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">For people looking for work</span>
+      <h2 class="section-h2" style="margin-top:14px;">Who we work with.<br><em>And how it works.</em></h2>
+    </div>
+
+    <!-- Four populations -->
+    <p style="font-size:17px; line-height:1.7; color:var(--ink-2); max-width:620px; margin-bottom:36px;">Baker works with four populations together on the same floor — because we believe that integration is part of what makes the model strong.</p>
+    <div class="pop-grid">
+      <div class="pop-cell">
+        <span class="pop-icon">⚖️</span>
+        <div class="pop-head">Returning citizens</div>
+        <p class="pop-desc">Whether you're coming home from a short sentence or a long one, Baker's structure is designed for reentry. Parole check-ins, court dates, and transition needs are expected here — not frowned upon.</p>
+      </div>
+      <div class="pop-cell">
+        <span class="pop-icon">🌱</span>
+        <div class="pop-head">People in recovery</div>
+        <p class="pop-desc">Baker provides a stable, structured environment that supports recovery. You'll have real work to come back to each day — and a team that wants you to succeed.</p>
+      </div>
+      <div class="pop-cell">
+        <span class="pop-icon">♿</span>
+        <div class="pop-head">Adults with disabilities</div>
+        <p class="pop-desc">Baker was founded on this mission — our founder Charlie Baker designed the program so his son Justin could have a real job. That commitment has never changed.</p>
+      </div>
+      <div class="pop-cell">
+        <span class="pop-icon">🏠</span>
+        <div class="pop-head">People experiencing housing insecurity</div>
+        <p class="pop-desc">Stable employment is one of the most direct paths to stable housing. Baker is often an early step in that journey — a paycheck from day one, and a structure to build from.</p>
+      </div>
+    </div>
+
+    <!-- What to expect -->
+    <div class="eyebrow" style="margin: 48px 0 20px;">What to expect</div>
+    <div class="expect-grid">
+      <div class="expect-cell">
+        <div class="expect-step">Step 01</div>
+        <div class="expect-head">You start work. You get paid.</div>
+        <p class="expect-desc">From day one, you're working on a real production floor doing real work — packaging, assembly, fulfillment, manufacturing. And you're earning a real paycheck for it. No waiting period, no probation.</p>
+      </div>
+      <div class="expect-cell">
+        <div class="expect-step">Step 02</div>
+        <div class="expect-head">You build skills for the long run.</div>
+        <p class="expect-desc">Baker's Job Readiness Program runs alongside your time on the floor. Resume writing, financial management, workplace leadership, and technology skills — all in a trauma-informed environment built around where you actually are.</p>
+      </div>
+      <div class="expect-cell">
+        <div class="expect-step">Step 03</div>
+        <div class="expect-head">Baker helps you make the next move.</div>
+        <p class="expect-desc">When you're ready, Baker helps connect you with permanent, competitive employment — with regional employers who know Baker participants are among the best workers they've ever hired.</p>
+      </div>
+    </div>
+
+    <!-- Photo -->
+    <div style="margin-top:48px; position:relative; border-radius:4px; overflow:hidden;">
+      <img
+        src="assets/img/IMG_0022.jpg"
+        alt="A job readiness class at Baker Industries with participants engaged."
+        style="width:100%; aspect-ratio:21/9; object-fit:cover; display:block;"
+      >
+      <div class="photo-caption">Job readiness training · Baker Industries</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ AUDIENCE: BUSINESS ═════════════════════ -->
+<section class="business-panel aud-only aud-business" id="business-panel" data-reveal>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">For business partners</span>
+      <h2 class="section-h2" style="margin-top:14px;">Capabilities that work<br><em>for your operation.</em></h2>
+    </div>
+
+    <!-- Why Baker for business -->
+    <div class="biz-why-grid" style="margin-bottom:48px;">
+      <div class="biz-why-cell">
+        <div class="biz-why-head">Trained, reliable, motivated workers</div>
+        <p class="biz-why-desc">Baker participants arrive at our client sites already trained and supported through the most difficult part of their transition. Clients consistently tell us Baker participants are among the most dedicated workers they've ever hired — because they know what the opportunity means.</p>
+      </div>
+      <div class="biz-why-cell">
+        <div class="biz-why-head">The impact is built into the invoice</div>
+        <p class="biz-why-desc">Every production order placed at Baker directly supports adults building careers in the Philadelphia region. You don't have to choose between operational efficiency and community investment. With Baker, the same check does both. This is what 80+ regional businesses have figured out.</p>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="eyebrow" style="margin-bottom:20px;">Our capabilities</div>
+    <div class="biz-services">
+      <div class="biz-service">
+        <div class="biz-service-num">01 / Manufacturing</div>
+        <h3 class="biz-service-h">Contract manufacturing &amp; assembly</h3>
+        <p class="biz-service-list">Mechanical assembly · Quality assurance · Cartoning · Sorting, bagging &amp; labeling · Wiring harness assembly · Food preparation &amp; packaging</p>
+      </div>
+      <div class="biz-service">
+        <div class="biz-service-num">02 / Packaging</div>
+        <h3 class="biz-service-h">Packaging &amp; specialty wrap</h3>
+        <p class="biz-service-list">Shrink wrapping · Heat sealing · Stretch wrapping · Kitting &amp; collation · Repackaging · Club wrapping · Sample kits · Point-of-purchase display</p>
+      </div>
+      <div class="biz-service">
+        <div class="biz-service-num">03 / Fulfillment</div>
+        <h3 class="biz-service-h">Fulfillment &amp; 3PL</h3>
+        <p class="biz-service-list">Third-party logistics · Pick &amp; pack · FedEx/UPS shipping · Warehouse club repackaging · Mailing services · Software assembly · Refurbishing</p>
+      </div>
+    </div>
+
+    <!-- Photo of work -->
+    <div class="photo-pair" style="margin-top:3px;">
+      <div class="photo-pair-cell">
+        <img
+          src="assets/img/IMG_0346.jpg"
+          alt="A Baker Industries participant carefully inspecting a product for quality."
+        >
+        <div class="photo-caption">Quality control</div>
+      </div>
+      <div class="photo-pair-cell">
+        <img
+          src="assets/img/Baker_Industries_00618.jpg"
+          alt="The Baker Industries fulfillment team working in Malvern."
+        >
+        <div class="photo-caption">Fulfillment floor · Malvern</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ CLIENTS ═══════════════════════════ -->
+<section class="tight" data-reveal>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:24px;">Trusted by 80+ regional partners, including</div>
+    <div class="clients-row">
+      <div class="client-tile">Tastykake</div>
+      <div class="client-tile">Crazy Aaron's</div>
+      <div class="client-tile">Philadelphia Museum of Art</div>
+      <div class="client-tile">GSK</div>
+      <div class="client-tile">Vestcom</div>
+      <div class="client-tile" style="color:var(--ink);">+ 75 more</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ WHAT'S NEW ═════════════════════════ -->
+<section data-reveal>
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:32px;">
+      <span class="eyebrow">What's new · 2025 into 2026</span>
+    </div>
+    <div class="news-feed">
+      <div class="news-card">
+        <div class="news-type">Expansion · Spring 2026</div>
+        <h3 class="news-hed">Norristown opens — bringing the Baker model to Montgomery County.</h3>
+        <p class="news-note">Third facility. Same model. 9 S Forrest Ave, Norristown, PA.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-type">New capability · 2025</div>
+        <h3 class="news-hed">All 15 participants in our first ServSafe class earn national food-safety certification.</h3>
+        <p class="news-note">Food prep and packaging launches as a new service line.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-type">Annual Gala · 2025</div>
+        <h3 class="news-hed">Honoring Rick and Lesty Ill for decades of commitment to Baker's mission.</h3>
+        <p class="news-note">Past honorees archive available on request.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PRESS ════════════════════════════ -->
+<section data-reveal>
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:32px;">
+      <span class="eyebrow">In the news · 2025 — 2026</span>
+      <a href="#" style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-2);">Full press kit →</a>
+    </div>
+    <div class="press-grid">
+      <article class="press-card">
+        <div class="press-outlet">NBC10 · Oct 2025</div>
+        <h4 class="press-hed">A day on the job with 'Positive Pete'</h4>
+        <div class="press-meta">Feature segment · 4:12</div>
+      </article>
+      <article class="press-card">
+        <div class="press-outlet">WHYY · 2025</div>
+        <h4 class="press-hed">Philadelphia's Baker Industries founder is turning 100</h4>
+        <div class="press-meta">Profile · Charlie Baker</div>
+      </article>
+      <article class="press-card">
+        <div class="press-outlet">CBS3 · Oct 2025</div>
+        <h4 class="press-hed">Nonprofit Baker Industries provides opportunities for the disabled community and more</h4>
+        <div class="press-meta">News segment</div>
+      </article>
+      <article class="press-card">
+        <div class="press-outlet">The Philadelphia Citizen</div>
+        <h4 class="press-hed">Fair Chance Hiring Is Good for the City's Future</h4>
+        <div class="press-meta">Guest commentary</div>
+      </article>
+      <article class="press-card">
+        <div class="press-outlet">Main Line Today · 2025</div>
+        <h4 class="press-hed">Inside the Malvern workforce quietly rewriting second chances</h4>
+        <div class="press-meta">Long-form feature</div>
+      </article>
+      <article class="press-card">
+        <div class="press-outlet">Philadelphia Business Journal</div>
+        <h4 class="press-hed">Baker Industries announces third facility in Norristown</h4>
+        <div class="press-meta">Business news · Spring 2026</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ DONATE CTA ════════════════════════ -->
+<section class="donate-cta aud-only aud-donor" id="donate" data-reveal>
+  <div class="wrap donate-inner">
+    <div>
+      <h2 class="donate-h2">The other half<br>of the model.<br><em>That's you.</em></h2>
+    </div>
+    <div>
+      <p class="donate-sub">Roughly half of Baker's revenue comes from clients who pay for real work. The other half comes from donors who believe in the mission. $100 is five hours of someone's first real paycheck in years.</p>
+      <div class="donate-amounts">
+        <button class="donate-btn">Give $50/month</button>
+        <button class="donate-btn">Give $100/month</button>
+        <button class="donate-btn">Give $250/month</button>
+      </div>
+      <p class="donate-note">Baker Industries is a 501(c)(3) nonprofit. All donations are tax-deductible.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ APPLY CTA (participant) ════════════════ -->
+<section class="apply-cta aud-only aud-participant" id="apply" data-reveal>
+  <div class="wrap apply-inner">
+    <div>
+      <h2 class="apply-h2">Ready to start?<br><em>We're ready for you.</em></h2>
+    </div>
+    <div>
+      <p style="font-size:17px; line-height:1.7; color:var(--ink-2); margin-bottom:28px;">The first step is a conversation. Tell us where you are and what you're looking for. We'll tell you how Baker can help. There's no complicated application — just a conversation about work.</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="#" class="btn btn-accent">Talk to someone today →</a>
+        <a href="#" class="btn btn-outline">Learn about our programs</a>
+      </div>
+      <p style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--ink-2); margin-top:16px;">Call 610.296.9795 · Philadelphia, Malvern &amp; Norristown</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ QUOTE CTA (business) ═══════════════════ -->
+<section class="quote-cta aud-only aud-business" id="quote" data-reveal>
+  <div class="wrap quote-inner">
+    <h2 class="quote-h2">Ready to put Baker<br><em>to work for you?</em></h2>
+    <p style="font-size:17px; line-height:1.7; color:var(--ink-2); margin-bottom:32px; max-width:520px; margin-left:auto; margin-right:auto;">Tell us about your project and we'll turn around a quote. Most of our client relationships start exactly this way — one job, then a long-term partnership.</p>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="#" class="btn btn-accent">Request a quote →</a>
+      <a href="#" class="btn btn-outline">See full capabilities</a>
+    </div>
+    <p style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--ink-2); margin-top:20px;">Call 610.296.9795 or email operations@bakerindustries.org</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+        <img src="assets/img/logo.png" alt="Baker Industries" />
+      </div>
+        <p class="footer-tagline">
+          501(c)(3) workforce development nonprofit.<br>
+          Demonstrating the power of work since 1980.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-head">Locations</div>
+        <div class="footer-locations">
+          <div>
+            <div class="footer-loc-name">Philadelphia</div>
+            <div class="footer-loc-addr">3630 I Street</div>
+          </div>
+          <div>
+            <div class="footer-loc-name">Malvern</div>
+            <div class="footer-loc-addr">184 Pennsylvania Ave</div>
+          </div>
+          <div>
+            <div class="footer-loc-name">Norristown</div>
+            <div class="footer-loc-addr">9 S Forrest Ave</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="#">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="press.html">Press room</a>
+          <a href="#">Volunteer</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:6px; line-height:1.6;">
+          <em>Lives Changed</em> — our monthly story series. Real people. No spam.
+        </p>
+        <form
+          class="footer-email-form"
+          onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';"
+        >
+          <input type="email" placeholder="your@email.com" required aria-label="Email address" />
+          <button type="submit">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3) · bakerindustries.org</span>
+      <div class="footer-social">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Audience switcher ──────────────────────────────────────
+  const tabs = document.querySelectorAll('.aud-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const aud = tab.dataset.aud;
+      document.documentElement.setAttribute('data-audience', aud);
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      // scroll to audience panel if it exists
+      const panel = document.getElementById(aud + '-panel');
+      if (panel) {
+        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      }
+    });
+  });
+
+  // ── Scroll reveal ──────────────────────────────────────────
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    }),
+    { threshold: 0.08 }
+  );
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── Donate button selection ────────────────────────────────
+  document.querySelectorAll('.donate-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.donate-btn').forEach(b => b.classList.remove('selected'));
+      btn.

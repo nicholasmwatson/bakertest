@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="business">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Business — Baker Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    :root {
+      --bg:         #0C0E0D;
+      --bg-2:       #161918;
+      --bg-card:    #1E2220;
+      --ink:        #EFE9DC;
+      --ink-2:      #A39B8E;
+      --rule:       rgba(239,233,220,0.1);
+      --accent:     #ED8054;
+      --accent-dk:  #C4562B;
+      --brand-blue: #688DA6;
+      --brand-sage: #B3BAA7;
+      --giving:     #7BAF8A;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', -apple-system, sans-serif;
+      --mono:       'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent); color: #0C0E0D; }
+
+    .wrap     { max-width: 1340px; margin: 0 auto; padding: 0 36px; }
+    .wrap-mid { max-width: 960px;  margin: 0 auto; padding: 0 36px; }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); }
+    section { padding: 96px 0; }
+    section.tight { padding: 56px 0; }
+
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 4px; font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; transition: all .2s ease; white-space: nowrap; }
+    .btn-accent  { background: var(--accent); color: #0C0E0D; }
+    .btn-accent:hover { background: var(--accent-dk); transform: translateY(-1px); }
+    .btn-outline { border: 1.5px solid rgba(239,233,220,0.3); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btn-blue { background: var(--brand-blue); color: #fff; }
+    .btn-blue:hover { background: #5a7b93; transform: translateY(-1px); }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: rgba(12,14,13,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 32px; }
+    .nav-logo { display: inline-flex; align-items: center; flex-shrink: 0; background: #fff; border-radius: 4px; padding: 4px 10px; }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 28px; font-size: 13.5px; font-weight: 500; color: var(--ink-2); }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-donate { background: var(--accent); color: #0C0E0D; padding: 9px 18px; border-radius: 4px; font-size: 13px; font-weight: 600; display: inline-block; }
+    .nav-donate:hover { background: var(--accent-dk); }
+
+    /* ── Audience bar ────────────────────────────────────── */
+    .audience-bar { position: fixed; top: 64px; left: 0; right: 0; z-index: 55; background: var(--bg-card); border-bottom: 1px solid var(--rule); }
+    .audience-bar-inner { display: flex; align-items: center; height: 48px; gap: 0; }
+    .audience-bar-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); padding: 0 20px 0 0; white-space: nowrap; flex-shrink: 0; }
+    .aud-tabs { display: flex; gap: 0; }
+    .aud-tab { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); padding: 0 20px; height: 48px; display: flex; align-items: center; border-right: 1px solid var(--rule); cursor: pointer; transition: color .15s; position: relative; }
+    .aud-tab:first-child { border-left: 1px solid var(--rule); }
+    .aud-tab:hover { color: var(--ink); }
+    .aud-tab.active { color: var(--brand-blue); }
+    .aud-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--brand-blue); }
+    .aud-only { display: none; }
+    [data-audience="donor"]       .aud-donor      { display: block; }
+    [data-audience="participant"] .aud-participant { display: block; }
+    [data-audience="business"]    .aud-business   { display: block; }
+
+    /* ── Scroll reveal ───────────────────────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    /* ── Hero ────────────────────────────────────────────── */
+    .page-hero { padding-top: 200px; padding-bottom: 80px; }
+    .page-hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start; }
+    .page-hero h1 { font-family: var(--serif); font-size: clamp(44px, 6vw, 88px); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 28px; }
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-lede { font-size: 19px; line-height: 1.7; color: var(--ink-2); margin-bottom: 32px; max-width: 54ch; }
+    .hero-photo { border-radius: 4px; overflow: hidden; aspect-ratio: 4/3; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Value prop bar ──────────────────────────────────── */
+    .value-bar { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .value-bar-inner { display: grid; grid-template-columns: repeat(4, 1fr); border-left: 1px solid var(--rule); }
+    .value-cell { padding: 32px 28px; border-right: 1px solid var(--rule); }
+    .value-cell-icon { font-size: 24px; margin-bottom: 14px; }
+    .value-cell-head { font-family: var(--serif); font-size: 20px; margin-bottom: 8px; }
+    .value-cell-text { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+    /* ── Service blocks ──────────────────────────────────── */
+    .service-block { display: grid; grid-template-columns: 260px 1fr; gap: 80px; padding: 72px 0; border-top: 1px solid var(--rule); align-items: start; }
+    .service-block-left { position: sticky; top: 128px; }
+    .service-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .service-block h2 { font-family: var(--serif); font-size: clamp(28px, 3.5vw, 44px); line-height: 1.1; letter-spacing: -0.015em; }
+    .service-lede { font-size: 18px; line-height: 1.7; color: var(--ink-2); margin-bottom: 28px; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .service-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 2px; color: var(--ink-2); }
+    .service-photo { border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; margin-top: 32px; }
+    .service-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Capabilities table ──────────────────────────────── */
+    .cap-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .cap-table th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--rule); }
+    .cap-table td { padding: 14px 16px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+    .cap-table tr:last-child td { border-bottom: none; }
+    .cap-check { color: var(--giving); font-size: 13px; }
+
+    /* ── Clients section ─────────────────────────────────── */
+    .clients-section { background: var(--bg-2); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .clients-section h2 { font-family: var(--serif); font-size: clamp(28px, 3.5vw, 44px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px; margin-bottom: 12px; }
+    .clients-list { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); margin-top: 40px; }
+    .client-item { padding: 24px 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-weight: 600; font-size: 15px; min-width: 200px; flex: 1; }
+
+    /* ── Why Baker section ───────────────────────────────── */
+    .why-baker { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .why-baker-copy h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px; }
+    .why-baker-copy h2 em { font-style: italic; color: var(--accent); }
+    .why-list { margin-top: 36px; display: flex; flex-direction: column; gap: 0; }
+    .why-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+    .why-item:first-child { border-top: 1px solid var(--rule); }
+    .why-check { font-family: var(--mono); font-size: 12px; color: var(--giving); flex-shrink: 0; margin-top: 2px; }
+    .why-text { font-size: 15px; line-height: 1.6; }
+    .why-text strong { color: var(--ink); }
+    .why-baker-photo { border-radius: 4px; overflow: hidden; aspect-ratio: 3/4; }
+    .why-baker-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Quote form ──────────────────────────────────────── */
+    .quote-section { background: var(--bg-card); border-top: 1px solid var(--rule); }
+    .quote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .quote-copy h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px; }
+    .quote-copy h2 em { font-style: italic; color: var(--accent); }
+    .quote-copy p { font-size: 16px; color: var(--ink-2); line-height: 1.7; margin-top: 20px; }
+    .quote-contact { margin-top: 36px; padding: 28px 32px; background: var(--bg-2); border: 1px solid var(--rule); border-radius: 4px; }
+    .quote-contact-name { font-family: var(--serif); font-size: 22px; margin-bottom: 4px; }
+    .quote-contact-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-blue); margin-bottom: 16px; }
+    .quote-contact-info { font-size: 14px; color: var(--ink-2); line-height: 2; }
+    .quote-contact-info a { color: var(--brand-blue); }
+    .quote-form { background: var(--bg-2); border: 1px solid var(--rule); border-radius: 4px; padding: 36px; }
+    .form-row { margin-bottom: 20px; }
+    .form-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); display: block; margin-bottom: 8px; }
+    .form-input, .form-select, .form-textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 4px; padding: 12px 16px; color: var(--ink); font-family: var(--sans); font-size: 15px; transition: border-color .15s; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--brand-blue); }
+    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23A39B8E' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+    .form-textarea { min-height: 100px; resize: vertical; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-submit { width: 100%; padding: 16px; background: var(--accent); color: #0C0E0D; border: none; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; margin-top: 4px; }
+    .form-submit:hover { background: var(--accent-dk); }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .footer { background: #060706; padding: 64px 0 40px; border-top: 1px solid var(--rule); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px; margin-bottom: 56px; }
+    .footer-logo { display: inline-flex; align-items: center; background: #fff; border-radius: 4px; padding: 4px 10px; margin-bottom: 20px; }
+    .footer-logo img { height: 28px; width: auto; display: block; }
+    .footer-tagline { font-size: 13px; color: var(--ink-2); line-height: 1.6; max-width: 30ch; }
+    .footer-col-head { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); flex-wrap: wrap; gap: 12px; }
+
+    @media (max-width: 1024px) {
+      .value-bar-inner { grid-template-columns: repeat(2, 1fr); }
+      .value-cell:nth-child(2n) { border-right: none; }
+      .value-cell { border-bottom: 1px solid var(--rule); }
+      .why-baker { grid-template-columns: 1fr; }
+      .quote-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .page-hero-grid { grid-template-columns: 1fr; }
+      .service-block { grid-template-columns: 1fr; gap: 32px; }
+      .service-block-left { position: static; }
+      .value-bar-inner { grid-template-columns: 1fr; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Baker Industries home">
+      <img src="assets/img/logo.png" alt="Baker Industries" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="stories.html">Stories</a>
+      <a href="programs.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="capabilities.html" class="active">For Business</a>
+      <a href="news.html">News</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#quote" class="nav-donate">Get a quote →</a>
+    </div>
+  </div>
+</header>
+
+<div class="audience-bar">
+  <div class="wrap audience-bar-inner">
+    <span class="audience-bar-label">I am a</span>
+    <div class="aud-tabs">
+      <button class="aud-tab" data-aud="donor">Donor / Supporter</button>
+      <button class="aud-tab" data-aud="participant">Job Seeker</button>
+      <button class="aud-tab active" data-aud="business">Business Partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="page-hero tight">
+  <div class="wrap">
+    <div class="page-hero-grid">
+      <div data-reveal>
+        <span class="eyebrow" style="color: var(--brand-blue);">For Business Partners</span>
+        <h1 style="margin-top: 20px;">Reliable work.<br>Real impact.<br><em>Every order.</em></h1>
+        <p class="hero-lede">Baker Industries is a contract manufacturing, packaging, and fulfillment operation serving 80+ clients across the Delaware Valley. When you work with Baker, you get competitive pricing, built-in quality control — and every dollar you spend funds job training for adults who need it most.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="#quote" class="btn btn-accent">Request a quote →</a>
+          <a href="#services" class="btn btn-outline">See our capabilities</a>
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="hero-photo">
+          <img src="assets/img/Baker_Industries_00290.jpg" alt="Baker Industries production floor — packaging operation." loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Value prop bar -->
+<section class="value-bar tight">
+  <div class="wrap">
+    <div class="value-bar-inner" data-reveal>
+      <div class="value-cell">
+        <div class="value-cell-icon">🏭</div>
+        <div class="value-cell-head">Three facilities</div>
+        <div class="value-cell-text">Malvern, Philadelphia, and Norristown (Spring 2026). Scalable capacity across the region.</div>
+      </div>
+      <div class="value-cell">
+        <div class="value-cell-icon">✅</div>
+        <div class="value-cell-head">Quality built in</div>
+        <div class="value-cell-text">QA is integrated into every production line. ISO-capable workflows. Consistent output on every run.</div>
+      </div>
+      <div class="value-cell">
+        <div class="value-cell-icon">📦</div>
+        <div class="value-cell-head">Short runs to long runs</div>
+        <div class="value-cell-text">Flexible volume capacity. We handle seasonal surge, specialty packaging, and ongoing 3PL partnerships.</div>
+      </div>
+      <div class="value-cell">
+        <div class="value-cell-icon">🤝</div>
+        <div class="value-cell-head">Mission-aligned spend</div>
+        <div class="value-cell-text">Your contracts directly fund job training for adults facing barriers to employment. Great work and real impact.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="wrap">
+
+    <div class="service-block" data-reveal>
+      <div class="service-block-left">
+        <div class="service-num">Service · 01</div>
+        <h2>Contract manufacturing<br>& assembly</h2>
+      </div>
+      <div>
+        <p class="service-lede">Precision assembly, mechanical assembly, component sorting, counting, and quality assurance — at the volume and pace your production schedule demands.</p>
+        <div class="service-tags">
+          <span class="service-tag">Assembly</span>
+          <span class="service-tag">Mechanical assembly</span>
+          <span class="service-tag">Quality assurance</span>
+          <span class="service-tag">Cartoning</span>
+          <span class="service-tag">Sorting & counting</span>
+          <span class="service-tag">Bagging & labeling</span>
+          <span class="service-tag">Gluing & wiring</span>
+          <span class="service-tag">Food prep & packaging</span>
+        </div>
+        <table class="cap-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Component assembly</td><td>From simple to complex; single-part to multi-component</td></tr>
+            <tr><td>Mechanical assembly</td><td>Fastening, wiring, and sub-assembly builds</td></tr>
+            <tr><td>Sorting & QA inspection</td><td>100% visual inspection available; ISO-capable processes</td></tr>
+            <tr><td>Cartoning & box building</td><td>Auto or hand erect; in-line or off-line</td></tr>
+            <tr><td>Counting & batching</td><td>Piece count and weight-based; pharmaceutical experience</td></tr>
+          </tbody>
+        </table>
+        <div class="service-photo">
+          <img src="assets/img/Baker_Industries_00283.jpg" alt="Baker Industries assembly line in operation." loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block" data-reveal>
+      <div class="service-block-left">
+        <div class="service-num">Service · 02</div>
+        <h2>Packaging &<br>specialty wrap</h2>
+      </div>
+      <div>
+        <p class="service-lede">Full-service packaging — from retail-ready to club-store repack to bespoke gift wrap. We handle short runs, long runs, and seasonal capacity surges without skipping a beat.</p>
+        <div class="service-tags">
+          <span class="service-tag">Shrink wrap</span>
+          <span class="service-tag">Heat seal</span>
+          <span class="service-tag">Stretch wrap</span>
+          <span class="service-tag">Kitting & collation</span>
+          <span class="service-tag">Repackaging</span>
+          <span class="service-tag">Club wrap</span>
+          <span class="service-tag">Sample kits</span>
+          <span class="service-tag">POP display</span>
+          <span class="service-tag">Gift wrap</span>
+        </div>
+        <table class="cap-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Retail packaging</td><td>Clamshell, blister, carded, open-face, window box</td></tr>
+            <tr><td>Warehouse club repack</td><td>Costco, Sam's Club, BJ's multi-pack configurations</td></tr>
+            <tr><td>Kitting & sample sets</td><td>Multi-product bundles; promotional and medical kits</td></tr>
+            <tr><td>Point-of-purchase displays</td><td>Floor, counter, and end-cap assembly</td></tr>
+            <tr><td>Seasonal gift wrap</td><td>Hand wrap, bow application, nesting</td></tr>
+          </tbody>
+        </table>
+        <div class="service-photo">
+          <img src="assets/img/Baker_Industries_00273.jpg" alt="Baker Industries packaging operations." loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block" data-reveal>
+      <div class="service-block-left">
+        <div class="service-num">Service · 03</div>
+        <h2>Fulfillment<br>& 3PL</h2>
+      </div>
+      <div>
+        <p class="service-lede">End-to-end fulfillment: pick & pack, FedEx/UPS shipping, batch processing, and mailing services — with the reliability your logistics operation needs.</p>
+        <div class="service-tags">
+          <span class="service-tag">3PL / warehousing</span>
+          <span class="service-tag">Pick & pack</span>
+          <span class="service-tag">FedEx · UPS shipping</span>
+          <span class="service-tag">Batch processing</span>
+          <span class="service-tag">Mailing services</span>
+          <span class="service-tag">Incoming mail sort</span>
+          <span class="service-tag">Software assembly</span>
+          <span class="service-tag">Refurbishing</span>
+          <span class="service-tag">Data entry</span>
+        </div>
+        <table class="cap-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Pick & pack fulfillment</td><td>Ecommerce, B2B, subscription — flexible formats</td></tr>
+            <tr><td>Parcel shipping</td><td>FedEx, UPS, USPS; bulk rate experience</td></tr>
+            <tr><td>Mailing & direct mail</td><td>Insert, fold, seal, stamp; NCOA-compatible</td></tr>
+            <tr><td>Incoming mail processing</td><td>Sort, open, scan, data entry, remittance processing</td></tr>
+            <tr><td>Refurbishing & remanufacture</td><td>Electronics, hardware, promotional items</td></tr>
+          </tbody>
+        </table>
+        <div class="service-photo">
+          <img src="assets/img/Baker_Industries_00299.jpg" alt="Baker Industries fulfillment operations." loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Clients -->
+<section class="clients-section">
+  <div class="wrap">
+    <div data-reveal>
+      <span class="eyebrow">Who we work with</span>
+      <h2>80+ clients across<br>the Delaware Valley.</h2>
+      <p style="font-size: 16px; color: var(--ink-2); margin-top: 12px; max-width: 58ch;">From Fortune 500 manufacturers to regional food producers, healthcare companies, and nonprofits — Baker's client list spans industries and order sizes.</p>
+    </div>
+    <div class="clients-list" data-reveal>
+      <div class="client-item">GlaxoSmithKline (GSK)</div>
+      <div class="client-item">AmeriHealth</div>
+      <div class="client-item">Independence Blue Cross</div>
+      <div class="client-item">Aramark</div>
+      <div class="client-item">West Chester University</div>
+      <div class="client-item">Siemens</div>
+      <div class="client-item">SEI Investments</div>
+      <div class="client-item">Regional healthcare networks</div>
+      <div class="client-item">Philadelphia nonprofits</div>
+      <div class="client-item">Regional food brands</div>
+      <div class="client-item">Specialty retailers</div>
+      <div class="client-item">+ 70 more partners</div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Baker -->
+<section>
+  <div class="wrap">
+    <div class="why-baker" data-reveal>
+      <div class="why-baker-copy">
+        <span class="eyebrow">Why Baker</span>
+        <h2>The case for<br><em>hiring us.</em></h2>
+        <div class="why-list">
+          <div class="why-item">
+            <span class="why-check">✓</span>
+            <span class="why-text"><strong>Competitive pricing.</strong> Baker's cost structure means you're not paying a premium for mission-aligned work. We compete on price — and win.</span>
+          </div>
+          <div class="why-item">
+            <span class="why-check">✓</span>
+            <span class="why-text"><strong>Reliable, experienced workforce.</strong> Many of our team members have been here for years — some for decades. This is not a revolving door. Institutional knowledge is built in.</span>
+          </div>
+          <div class="why-item">
+            <span class="why-check">✓</span>
+            <span class="why-text"><strong>Built-in quality control.</strong> QA is not a separate step — it's part of every line. ISO-capable workflows. We don't ship bad product.</span>
+          </div>
+          <div class="why-item">
+            <span class="why-check">✓</span>
+            <span class="why-text"><strong>Surge-capable.</strong> Three facilities means we can absorb seasonal volume spikes without sacrificing your timeline or quality standards.</span>
+          </div>
+          <div class="why-item">
+            <span class="why-check">✓</span>
+            <span class="why-text"><strong>ESG and CSR credentials.</strong> Your purchasing decision creates documented social impact. Baker provides reports, stories, and data for your CSR team.</span>
+          </div>
+          <div class="why-item">
+            <span class="why-check">✓</span>
+            <span class="why-text"><strong>46 years of trust.</strong> Baker has been doing this since 1980. GSK. Aramark. AmeriHealth. We have the track record to back it up.</span>
+          </div>
+        </div>
+      </div>
+      <div class="why-baker-photo">
+        <img src="assets/img/IMG_0115.jpg" alt="Baker Industries production operations." loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote / contact -->
+<section class="quote-section" id="quote">
+  <div class="wrap">
+    <div class="quote-grid">
+      <div data-reveal>
+        <span class="eyebrow">Get started</span>
+        <h2 class="quote-copy" style="font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 16px;">Request a quote<br>or <em>schedule a tour.</em></h2>
+        <p style="font-size: 16px; color: var(--ink-2); line-height: 1.7; margin-top: 20px;">Tell us what you need. We'll respond within one business day with a quote or a call to learn more. Tours of our Malvern facility are available by appointment.</p>
+        <div class="quote-contact" style="margin-top: 36px;">
+          <div class="quote-contact-name">Nic Watson</div>
+          <div class="quote-contact-title">President, Baker Industries</div>
+          <div class="quote-contact-info">
+            <div><a href="tel:+16102969795">(610) 296-9795 ext. 117</a></div>
+            <div><a href="tel:+12158399659">(215) 839-9659</a></div>
+            <div><a href="mailto:nwatson@bakerindustries.org">nwatson@bakerindustries.org</a></div>
+          </div>
+        </div>
+        <div style="margin-top: 28px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2);">
+          Malvern · 150 Monument Road, PA 19355<br>
+          Philadelphia · 184 Pennsylvania Ave<br>
+          Norristown · 9 S Forrest Ave (Spring 2026)
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="quote-form">
+          <div style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 28px;">Quick quote request</div>
+          <form onsubmit="event.preventDefault(); this.innerHTML = '<p style=\'font-family: var(--serif); font-size: 22px; line-height: 1.4;\'>Thanks — we\'ll be in touch within one business day.</p>';">
+            <div class="form-row-2" style="margin-bottom: 20px;">
+              <div class="form-row" style="margin-bottom:0">
+                <label class="form-label">Company name</label>
+                <input type="text" class="form-input" placeholder="Acme Co." required />
+              </div>
+              <div class="form-row" style="margin-bottom:0">
+                <label class="form-label">Your name</label>
+                <input type="text" class="form-input" placeholder="Jane Smith" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" placeholder="jane@acmeco.com" required />
+            </div>
+            <div class="form-row">
+              <label class="form-label">Service needed</label>
+              <select class="form-select form-input">
+                <option value="">Select one…</option>
+                <option>Contract manufacturing / assembly</option>
+                <option>Packaging & specialty wrap</option>
+                <option>Fulfillment & 3PL</option>
+                <option>Multiple / not sure yet</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label class="form-label">Describe your project</label>
+              <textarea class="form-textarea form-input" placeholder="Volumes, timeline, any special requirements…" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send request →</button>
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-top: 12px; text-align: center;">We respond within 1 business day</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo" aria-label="Baker Industries home">
+          <img src="assets/img/logo.png" alt="Baker Industries" />
+        </a>
+        <p class="footer-tagline">Real work for real pay.<br>Malvern · Philadelphia · Norristown</p>
+      </div>
+      <div>
+        <div class="footer-col-head">Site</div>
+        <div class="footer-links">
+          <a href="stories.html">Stories</a>
+          <a href="programs.html">Programs</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="donate.html">Donate</a>
+          <a href="capabilities.html">For Business</a>
+          <a href="press.html">Press room</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Contact</div>
+        <div class="footer-links">
+          <a href="mailto:info@bakerindustries.org">info@bakerindustries.org</a>
+          <a href="tel:+16104445150">(610) 444-5150</a>
+          <a href="tel:+16102969795">(610) 296-9795</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Stay connected</div>
+        <p style="font-size:14px; color:var(--ink-2); margin-bottom:16px; line-height:1.6;"><em>Lives Changed</em> — our monthly story series.</p>
+        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks!'; this.querySelector('input').value='';" style="display:flex; gap:0;">
+          <input type="email" placeholder="your@email.com" required style="flex:1; background:var(--bg-card); border:1px solid var(--rule); border-right:none; border-radius:4px 0 0 4px; padding:11px 16px; color:var(--ink); font-family:var(--sans); font-size:14px;" />
+          <button type="submit" style="background:var(--accent); color:#0C0E0D; padding:11px 18px; border-radius:0 4px 4px 0; font-size:13px; font-weight:600; white-space:nowrap;">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Baker Industries · 501(c)(3)</span>
+      <span>150 Monument Road, Malvern PA 19355</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.aud-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.documentElement.setAttribute('data-audience', tab.dataset.aud);
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
